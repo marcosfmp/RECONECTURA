@@ -1,0 +1,2694 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reconectura — Camaquã</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0D0F0A;
+  --bg2: #111409;
+  --surface: #171A10;
+  --surface2: #1E2214;
+  --border: rgba(180,160,80,0.12);
+  --border2: rgba(180,160,80,0.22);
+  --gold: #C8A84B;
+  --gold2: #E8C96A;
+  --green: #4A7C3F;
+  --green2: #6BAF5E;
+  --cream: #F0E8CC;
+  --cream2: #E8DDB8;
+  --muted: rgba(240,232,204,0.38);
+  --muted2: rgba(240,232,204,0.55);
+  --text: #F0E8CC;
+  --rust: #A0522D;
+  --teal: #2E7D6E;
+  --radius: 3px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* grain overlay */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9998;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:.5;
+}
+
+/* ── PAGES ── */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ── NAV ── */
+nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:500;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.1rem 3.5rem;
+  background:rgba(13,15,10,0.82);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+
+.logo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem;
+  font-weight:600;
+  letter-spacing:0.04em;
+  color:var(--cream);
+  cursor:pointer;
+  text-decoration:none;
+}
+.logo span { color:var(--gold); }
+
+.nav-links {
+  display:flex;
+  gap:2.2rem;
+  list-style:none;
+}
+
+.nav-links a {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted2);
+  text-decoration:none;
+  cursor:pointer;
+  transition:color .2s;
+}
+.nav-links a:hover, .nav-links a.active { color:var(--gold); }
+
+.nav-btn {
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  background:var(--gold);
+  color:var(--bg);
+  border:none;
+  padding:.55rem 1.3rem;
+  cursor:pointer;
+  border-radius:var(--radius);
+  font-weight:500;
+  transition:all .2s;
+}
+.nav-btn:hover { background:var(--gold2); transform:translateY(-1px); }
+
+/* hamburger mobile */
+.nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+.nav-hamburger span { display:block; width:22px; height:2px; background:var(--gold); border-radius:2px; }
+
+/* ── HERO ── */
+#page-home {
+  min-height:100vh;
+}
+
+.hero {
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:0 3.5rem;
+  padding-top:80px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 70% 40%, rgba(74,124,63,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 30% 70%, rgba(200,168,75,0.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+/* decorative vertical lines */
+.hero::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(180,160,80,0.025) 119px, rgba(180,160,80,0.025) 120px);
+  pointer-events:none;
+}
+
+.hero-left { position:relative; z-index:2; padding:3rem 0; }
+
+.hero-eyebrow {
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--green2);
+  margin-bottom:1.8rem;
+}
+.hero-eyebrow::before { content:''; width:28px; height:1px; background:var(--green2); }
+
+h1.hero-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,5.5vw,5.8rem);
+  font-weight:700;
+  line-height:.93;
+  letter-spacing:-.02em;
+  margin-bottom:1.6rem;
+  color:var(--cream);
+}
+h1.hero-title em { font-style:italic; color:var(--gold); }
+
+.hero-sub {
+  font-size:1rem;
+  line-height:1.7;
+  color:var(--muted2);
+  max-width:420px;
+  margin-bottom:2.5rem;
+  font-weight:300;
+}
+
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+
+.btn {
+  font-family:'Outfit',sans-serif;
+  font-size:.88rem;
+  font-weight:500;
+  padding:.85rem 1.9rem;
+  border-radius:var(--radius);
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  transition:all .25s;
+  border:none;
+}
+.btn-gold { background:var(--gold); color:var(--bg); }
+.btn-gold:hover { background:var(--gold2); transform:translateY(-2px); box-shadow:0 8px 24px rgba(200,168,75,.25); }
+.btn-ghost { background:transparent; color:var(--cream); border:1.5px solid var(--border2); }
+.btn-ghost:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+
+.hero-metrics {
+  display:flex;
+  gap:2.5rem;
+  margin-top:3.5rem;
+  padding-top:2rem;
+  border-top:1px solid var(--border);
+}
+.metric-val {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;
+  font-weight:700;
+  color:var(--cream);
+  line-height:1;
+}
+.metric-label {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:.3rem;
+}
+
+.hero-right { position:relative; z-index:2; display:flex; justify-content:flex-end; align-items:center; }
+
+.hero-map-preview {
+  width:100%;
+  max-width:500px;
+  background:var(--surface);
+  border-radius:8px;
+  border:1px solid var(--border);
+  overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+  position:relative;
+}
+
+.map-header {
+  padding:1rem 1.3rem;
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.map-dots { display:flex; gap:.4rem; }
+.map-dot { width:8px; height:8px; border-radius:50%; }
+.dot-r { background:#FF5F57; }
+.dot-y { background:#FEBC2E; }
+.dot-g { background:#28C840; }
+
+.map-title-bar {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.map-body {
+  height:300px;
+  background: linear-gradient(160deg, #141c0e 0%, #0e1a12 50%, #101510 100%);
+  position:relative;
+  overflow:hidden;
+}
+
+/* Stylized map paths */
+.map-paths {
+  position:absolute;
+  inset:0;
+  opacity:.25;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 29px, rgba(180,160,80,.15) 29px, rgba(180,160,80,.15) 30px),
+    repeating-linear-gradient(90deg, transparent, transparent 29px, rgba(180,160,80,.1) 29px, rgba(180,160,80,.1) 30px);
+}
+
+.map-water {
+  position:absolute;
+  bottom:0; right:0;
+  width:40%; height:50%;
+  background:linear-gradient(135deg, rgba(46,125,110,.25) 0%, rgba(20,60,80,.4) 100%);
+  border-top-left-radius:60% 40%;
+  border-left:1px solid rgba(46,125,110,.3);
+  border-top:1px solid rgba(46,125,110,.3);
+}
+
+.map-road {
+  position:absolute;
+  background:rgba(200,168,75,.2);
+  border-radius:2px;
+}
+
+.map-pin {
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  transform:translate(-50%,-100%);
+  transition:transform .2s;
+}
+.map-pin:hover { transform:translate(-50%,-110%); }
+
+.pin-marker {
+  width:10px;
+  height:10px;
+  border-radius:50% 50% 50% 0;
+  transform:rotate(-45deg);
+  border:1.5px solid rgba(255,255,255,.6);
+}
+.pin-tip {
+  background:rgba(13,15,10,.9);
+  color:var(--gold);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.52rem;
+  padding:.2rem .5rem;
+  border-radius:2px;
+  margin-top:.3rem;
+  white-space:nowrap;
+  border:1px solid var(--border2);
+}
+
+.map-footer {
+  padding:.9rem 1.3rem;
+  background:var(--surface2);
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.map-count {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  color:var(--gold);
+  letter-spacing:.1em;
+}
+.map-badge {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+  background:var(--surface);
+  padding:.25rem .7rem;
+  border-radius:20px;
+  border:1px solid var(--border);
+}
+
+.hero-float {
+  position:absolute;
+  background:rgba(23,26,16,.95);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  padding:.9rem 1.1rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+.hero-float.f1 { bottom:-1.5rem; left:-2rem; min-width:180px; }
+.hero-float.f2 { top:2rem; right:-1.5rem; min-width:150px; }
+
+.float-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--green2);
+  margin-bottom:.3rem;
+}
+.float-val {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--cream);
+}
+.float-sub { font-size:.7rem; color:var(--muted); margin-top:.15rem; }
+
+/* ── FEATURES STRIP ── */
+.features-strip {
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:2.5rem 3.5rem;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2rem;
+}
+.feat {
+  display:flex;
+  align-items:flex-start;
+  gap:1rem;
+}
+.feat-ico {
+  font-size:1.4rem;
+  flex-shrink:0;
+  margin-top:.1rem;
+}
+.feat-text-title {
+  font-size:.9rem;
+  font-weight:600;
+  color:var(--cream);
+  margin-bottom:.25rem;
+}
+.feat-text-desc {
+  font-size:.78rem;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* ── PONTOS SECTION (home teaser) ── */
+.section {
+  padding:6rem 3.5rem;
+}
+.section-sm { padding:4rem 3.5rem; }
+
+.sec-eyebrow {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+  margin-bottom:1rem;
+}
+.sec-eyebrow::before { content:''; width:20px; height:1px; background:var(--gold); }
+
+h2.sec-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.5vw,3.2rem);
+  font-weight:700;
+  line-height:1.05;
+  letter-spacing:-.02em;
+  color:var(--cream);
+  margin-bottom:.8rem;
+}
+h2.sec-title em { color:var(--gold); font-style:italic; }
+
+.sec-desc {
+  font-size:.95rem;
+  color:var(--muted2);
+  max-width:480px;
+  line-height:1.7;
+  font-weight:300;
+}
+
+.sec-header {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-bottom:3rem;
+  gap:2rem;
+  flex-wrap:wrap;
+}
+
+/* ── PONTOS GRID ── */
+.pontos-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.2rem;
+}
+
+.ponto-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:all .3s;
+  display:flex;
+  flex-direction:column;
+}
+.ponto-card:hover {
+  border-color:var(--border2);
+  transform:translateY(-4px);
+  box-shadow:0 16px 48px rgba(0,0,0,.35);
+}
+
+.ponto-thumb {
+  height:160px;
+  position:relative;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.ponto-thumb-bg {
+  position:absolute;
+  inset:0;
+  transition:transform .6s;
+}
+.ponto-card:hover .ponto-thumb-bg { transform:scale(1.06); }
+
+.ponto-thumb-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, transparent 40%, rgba(13,15,10,.85) 100%);
+  z-index:1;
+}
+
+.ponto-cat-badge {
+  position:absolute;
+  top:.8rem;
+  left:.8rem;
+  z-index:2;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:.25rem .6rem;
+  border-radius:2px;
+}
+.cat-praça { background:rgba(74,124,63,.85); color:#c8f0c0; }
+.cat-cultural { background:rgba(160,82,45,.85); color:#f0d0b8; }
+.cat-natural { background:rgba(46,125,110,.85); color:#b8f0e8; }
+.cat-lazer { background:rgba(80,60,140,.85); color:#d8c8f8; }
+.cat-religioso { background:rgba(140,100,40,.85); color:#f8e8b8; }
+.cat-historico { background:rgba(100,40,40,.85); color:#f8c8c8; }
+
+.ponto-body { padding:1.2rem; flex:1; display:flex; flex-direction:column; }
+.ponto-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;
+  font-weight:600;
+  color:var(--cream);
+  margin-bottom:.4rem;
+  line-height:1.2;
+}
+.ponto-short {
+  font-size:.8rem;
+  color:var(--muted);
+  line-height:1.55;
+  margin-bottom:1rem;
+  flex:1;
+}
+.ponto-footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:.8rem;
+  border-top:1px solid var(--border);
+}
+.ponto-dist {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  color:var(--muted);
+  letter-spacing:.08em;
+}
+.ponto-cta {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--gold);
+  cursor:pointer;
+  transition:color .2s;
+  background:none;
+  border:none;
+}
+.ponto-cta:hover { color:var(--gold2); }
+
+/* ── PONTOS PAGE (all) ── */
+.pontos-all-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.2rem;
+}
+
+.filter-bar {
+  display:flex;
+  gap:.8rem;
+  flex-wrap:wrap;
+  margin-bottom:2.5rem;
+}
+.filter-btn {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:.4rem 1rem;
+  border-radius:20px;
+  border:1px solid var(--border2);
+  background:transparent;
+  color:var(--muted2);
+  cursor:pointer;
+  transition:all .2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background:var(--gold);
+  color:var(--bg);
+  border-color:var(--gold);
+}
+
+/* ── PONTO DETAIL PAGE ── */
+.detail-hero {
+  min-height:45vh;
+  display:flex;
+  align-items:flex-end;
+  padding:6rem 3.5rem 3rem;
+  position:relative;
+  overflow:hidden;
+  margin-top:72px;
+}
+.detail-hero-bg {
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+.detail-hero-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(13,15,10,.3) 0%, rgba(13,15,10,.9) 100%);
+  z-index:1;
+}
+.detail-hero-content { position:relative; z-index:2; max-width:700px; }
+
+.detail-breadcrumb {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--muted2);
+  margin-bottom:1rem;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  cursor:pointer;
+}
+.detail-breadcrumb span { color:var(--gold); }
+.detail-breadcrumb:hover > :first-child { color:var(--gold); }
+
+.detail-cat {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  margin-bottom:.8rem;
+  display:inline-block;
+  padding:.3rem .8rem;
+  border-radius:2px;
+}
+
+.detail-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:-.03em;
+  color:var(--cream);
+  margin-bottom:.8rem;
+}
+
+.detail-tagline {
+  font-size:1rem;
+  color:var(--muted2);
+  font-weight:300;
+  line-height:1.6;
+}
+
+.detail-body {
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:3rem;
+  padding:3.5rem 3.5rem;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.detail-main {}
+.detail-sidebar {}
+
+.detail-section-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;
+  font-weight:600;
+  color:var(--cream);
+  margin:2rem 0 .8rem;
+  padding-bottom:.5rem;
+  border-bottom:1px solid var(--border);
+}
+.detail-section-title:first-child { margin-top:0; }
+
+.detail-text {
+  font-size:.92rem;
+  color:var(--muted2);
+  line-height:1.8;
+  margin-bottom:1rem;
+  font-weight:300;
+}
+
+.detail-facts {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1.5rem;
+  margin-bottom:1.5rem;
+}
+.detail-fact {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:.6rem 0;
+  border-bottom:1px solid var(--border);
+  font-size:.82rem;
+}
+.detail-fact:last-child { border-bottom:none; padding-bottom:0; }
+.fact-key {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.fact-val { color:var(--cream); font-weight:500; }
+
+.detail-nearby {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1.5rem;
+}
+.nearby-title {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:1rem;
+}
+.nearby-item {
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  padding:.5rem 0;
+  cursor:pointer;
+  border-bottom:1px solid var(--border);
+  transition:all .2s;
+}
+.nearby-item:last-child { border-bottom:none; }
+.nearby-item:hover .nearby-name { color:var(--gold); }
+.nearby-ico { font-size:1rem; }
+.nearby-name { font-size:.82rem; color:var(--cream); flex:1; }
+.nearby-dist { font-family:'JetBrains Mono',monospace; font-size:.58rem; color:var(--muted); }
+
+.ar-teaser {
+  background:linear-gradient(135deg, rgba(74,124,63,.15) 0%, rgba(200,168,75,.08) 100%);
+  border:1px solid rgba(74,124,63,.3);
+  border-radius:4px;
+  padding:1.5rem;
+  margin-top:1.5rem;
+  display:flex;
+  gap:1rem;
+  align-items:flex-start;
+}
+.ar-ico { font-size:1.8rem; flex-shrink:0; }
+.ar-txt-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;
+  font-weight:600;
+  color:var(--green2);
+  margin-bottom:.3rem;
+}
+.ar-txt-desc { font-size:.78rem; color:var(--muted); line-height:1.5; }
+.ar-badge-pill {
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.52rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:.2rem .6rem;
+  background:rgba(74,124,63,.25);
+  border:1px solid rgba(74,124,63,.4);
+  border-radius:20px;
+  color:var(--green2);
+  margin-top:.5rem;
+}
+
+/* ── SOBRE PAGE ── */
+.sobre-hero {
+  min-height:35vh;
+  display:flex;
+  align-items:center;
+  padding:8rem 3.5rem 4rem;
+  position:relative;
+  overflow:hidden;
+}
+.sobre-hero::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 60% 80% at 20% 50%, rgba(200,168,75,.05) 0%, transparent 70%);
+}
+
+.sobre-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:start;
+  padding:4rem 3.5rem;
+}
+
+.sobre-text p {
+  font-size:.95rem;
+  color:var(--muted2);
+  line-height:1.8;
+  margin-bottom:1.2rem;
+  font-weight:300;
+}
+
+.sobre-values {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+}
+
+.value-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1.3rem;
+  transition:all .25s;
+}
+.value-card:hover {
+  border-color:var(--border2);
+  transform:translateY(-3px);
+}
+.value-ico { font-size:1.5rem; margin-bottom:.7rem; }
+.value-title { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:600; color:var(--cream); margin-bottom:.35rem; }
+.value-desc { font-size:.75rem; color:var(--muted); line-height:1.5; }
+
+.team-section { padding:0 3.5rem 5rem; }
+.team-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-top:2.5rem; }
+.team-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1.8rem 1.5rem;
+  text-align:center;
+  transition:all .25s;
+}
+.team-card:hover { border-color:var(--border2); transform:translateY(-3px); }
+.team-avatar { font-size:2.5rem; margin-bottom:.8rem; }
+.team-name { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--cream); margin-bottom:.2rem; }
+.team-role { font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:.5rem; }
+.team-bio { font-size:.78rem; color:var(--muted); line-height:1.5; }
+
+/* ── MAPA PAGE ── */
+.mapa-layout {
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:0;
+  height:calc(100vh - 72px);
+  margin-top:72px;
+}
+.mapa-sidebar {
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  padding:1.5rem;
+}
+.mapa-sidebar::-webkit-scrollbar { width:4px; }
+.mapa-sidebar::-webkit-scrollbar-track { background:transparent; }
+.mapa-sidebar::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+.mapa-sidebar-title {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.65rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:1.2rem;
+  padding-bottom:.8rem;
+  border-bottom:1px solid var(--border);
+}
+.mapa-list-item {
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  padding:.7rem .5rem;
+  cursor:pointer;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  margin-bottom:.3rem;
+  transition:all .2s;
+}
+.mapa-list-item:hover, .mapa-list-item.active {
+  background:rgba(200,168,75,.06);
+  border-color:var(--border2);
+}
+.mapa-list-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.mapa-list-name { font-size:.83rem; color:var(--cream); flex:1; line-height:1.3; }
+.mapa-list-cat {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.52rem;
+  color:var(--muted);
+  letter-spacing:.05em;
+}
+.mapa-main {
+  position:relative;
+  background:var(--bg2);
+  overflow:hidden;
+}
+.mapa-iframe {
+  width:100%;
+  height:100%;
+  border:none;
+  filter:saturate(.65) brightness(.75) sepia(.2);
+}
+.mapa-overlay-badge {
+  position:absolute;
+  bottom:2rem;
+  right:2rem;
+  background:rgba(13,15,10,.9);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--border2);
+  border-radius:4px;
+  padding:.8rem 1.2rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  z-index:10;
+}
+
+/* ── GASTRONOMIA PAGE ── */
+.gastro-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.2rem;
+}
+.gastro-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:1.5rem;
+  cursor:pointer;
+  transition:all .25s;
+}
+.gastro-card:hover { border-color:var(--border2); transform:translateY(-3px); box-shadow:0 12px 36px rgba(0,0,0,.3); }
+.gastro-ico { font-size:2rem; margin-bottom:.8rem; }
+.gastro-name { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:600; color:var(--cream); margin-bottom:.2rem; }
+.gastro-type { font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); margin-bottom:.7rem; }
+.gastro-desc { font-size:.82rem; color:var(--muted); line-height:1.55; margin-bottom:1rem; }
+.gastro-tags { display:flex; gap:.4rem; flex-wrap:wrap; }
+.gastro-tag {
+  font-size:.68rem;
+  padding:.2rem .6rem;
+  background:rgba(200,168,75,.08);
+  border:1px solid rgba(200,168,75,.15);
+  border-radius:20px;
+  color:var(--muted2);
+}
+.gastro-near {
+  margin-top:1rem;
+  padding-top:.8rem;
+  border-top:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.gastro-near span { color:var(--gold); }
+
+/* ── CONTATO PAGE ── */
+.contato-layout {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5rem;
+  padding:6rem 3.5rem;
+}
+.contato-info {}
+.contato-info p { font-size:.95rem; color:var(--muted2); line-height:1.8; margin-top:1rem; margin-bottom:2rem; font-weight:300; }
+
+.contact-detail {
+  display:flex;
+  align-items:flex-start;
+  gap:1rem;
+  margin-bottom:1.3rem;
+}
+.cd-ico { font-size:1.1rem; margin-top:.1rem; }
+.cd-label { font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:.2rem; }
+.cd-val { font-size:.88rem; color:var(--cream); }
+
+.social-row { display:flex; gap:.8rem; margin-top:2rem; }
+.soc-btn {
+  width:42px; height:42px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; cursor:pointer;
+  transition:all .2s; text-decoration:none;
+  color:var(--muted2);
+}
+.soc-btn:hover { background:var(--gold); border-color:var(--gold); color:var(--bg); transform:translateY(-2px); }
+
+.form-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:2.5rem;
+}
+.form-card h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;
+  font-weight:600;
+  color:var(--cream);
+  margin-bottom:1.8rem;
+}
+.form-row { margin-bottom:1.2rem; }
+.form-label {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+  display:block;
+  margin-bottom:.45rem;
+}
+.form-input {
+  width:100%;
+  padding:.8rem 1rem;
+  background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  font-family:'Outfit',sans-serif;
+  font-size:.88rem;
+  color:var(--text);
+  outline:none;
+  transition:border-color .2s;
+}
+.form-input:focus { border-color:var(--gold); }
+.form-input::placeholder { color:var(--muted); }
+textarea.form-input { resize:vertical; min-height:100px; }
+.form-select {
+  width:100%;
+  padding:.8rem 1rem;
+  background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  font-family:'Outfit',sans-serif;
+  font-size:.88rem;
+  color:var(--text);
+  outline:none;
+  cursor:pointer;
+}
+.form-select:focus { border-color:var(--gold); }
+
+/* ── ROADMAP / FUTURO ── */
+.roadmap-section { padding:0 3.5rem 6rem; }
+.roadmap-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; margin-top:3rem; }
+.roadmap-list { display:flex; flex-direction:column; gap:0; }
+.rm-item { display:flex; gap:1.3rem; padding-bottom:2rem; position:relative; }
+.rm-item::before { content:''; position:absolute; left:17px; top:34px; bottom:0; width:1px; background:rgba(200,168,75,.15); }
+.rm-item:last-child::before { display:none; }
+.rm-dot {
+  width:34px; height:34px;
+  border-radius:50%;
+  border:1.5px solid rgba(200,168,75,.35);
+  background:rgba(200,168,75,.06);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.85rem;
+  flex-shrink:0;
+}
+.rm-phase { font-family:'JetBrains Mono',monospace; font-size:.55rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:.2rem; }
+.rm-title { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:600; color:var(--cream); margin-bottom:.25rem; }
+.rm-desc { font-size:.78rem; color:var(--muted); line-height:1.5; }
+
+.cities-section { padding:5rem 3.5rem; background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.cities-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:2.5rem; }
+.city-card { background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:1.3rem; transition:all .25s; cursor:pointer; }
+.city-card:hover { border-color:var(--border2); transform:translateY(-3px); }
+.city-flag { font-size:1.5rem; margin-bottom:.6rem; }
+.city-name { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:600; color:var(--cream); margin-bottom:.2rem; }
+.city-state { font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem; }
+.city-status {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  display:inline-block;
+  padding:.2rem .6rem;
+  border-radius:20px;
+}
+.status-active { background:rgba(74,124,63,.2); border:1px solid rgba(74,124,63,.4); color:var(--green2); }
+.status-soon { background:rgba(200,168,75,.1); border:1px solid rgba(200,168,75,.25); color:var(--gold); }
+.status-planned { background:rgba(255,255,255,.04); border:1px solid var(--border); color:var(--muted); }
+
+/* ── FOOTER ── */
+footer {
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:3rem 3.5rem;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:2rem;
+}
+.footer-logo { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; color:var(--cream); margin-bottom:.3rem; }
+.footer-logo span { color:var(--gold); }
+.footer-sub { font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.footer-copy { font-size:.78rem; color:var(--muted); text-align:right; line-height:1.7; }
+
+/* ── DIVIDER ── */
+.divider { width:100%; height:1px; background:var(--border); }
+
+/* ── PAGE HEADER (inner pages) ── */
+.page-header {
+  padding:8rem 3.5rem 4rem;
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.page-header::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 50%, rgba(200,168,75,.04) 0%, transparent 70%);
+}
+
+/* ── FADE ANIM ── */
+.fade-in { opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
+.fade-in.visible { opacity:1; transform:translateY(0); }
+
+/* ── FLOATING PARTICLES ── */
+#particles-canvas {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  opacity:.55;
+}
+
+/* ── 3D PARALLAX HERO ── */
+.hero { perspective:1200px; transform-style:preserve-3d; }
+.hero-left { transform-style:preserve-3d; }
+.hero-title-wrap { transform-style:preserve-3d; }
+.p3d-deep  { transform:translateZ(60px); }
+.p3d-mid   { transform:translateZ(30px); }
+.p3d-near  { transform:translateZ(15px); }
+.p3d-float { transform:translateZ(80px); }
+
+/* ── DEPTH GLOW ── */
+.depth-glow {
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(80px);
+  animation:breathe 6s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100%{ opacity:.4; transform:scale(1); }
+  50%{ opacity:.7; transform:scale(1.15); }
+}
+
+/* ── HERO TILT ── */
+.hero-tilt-wrap {
+  transition:transform .08s linear;
+  transform-style:preserve-3d;
+}
+
+/* ── FLOATING CARDS EFFECT ── */
+.float-card-3d {
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.float-card-3d:hover {
+  transform:translateY(-8px) rotateX(3deg) rotateY(-2deg);
+  box-shadow:0 32px 80px rgba(0,0,0,.6), 0 0 40px rgba(200,168,75,.12);
+}
+
+/* ═══════════════════════════
+   AR PAGE
+═══════════════════════════ */
+#page-ar {
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:600;
+  display:none;
+  flex-direction:column;
+}
+#page-ar.active { display:flex; }
+
+/* AR Camera */
+#ar-video {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+}
+
+/* AR HUD overlay */
+#ar-hud {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:10;
+}
+
+/* Scanning grid */
+.ar-scan-grid {
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(74,175,80,.08) 49px, rgba(74,175,80,.08) 50px),
+    repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(74,175,80,.08) 49px, rgba(74,175,80,.08) 50px);
+  animation:grid-pulse 3s ease-in-out infinite;
+}
+@keyframes grid-pulse { 0%,100%{ opacity:.5; } 50%{ opacity:1; } }
+
+/* Corner brackets */
+.ar-corner {
+  position:absolute;
+  width:40px; height:40px;
+  border-color:var(--gold);
+  border-style:solid;
+}
+.ar-corner.tl { top:80px; left:24px; border-width:2px 0 0 2px; }
+.ar-corner.tr { top:80px; right:24px; border-width:2px 2px 0 0; }
+.ar-corner.bl { bottom:140px; left:24px; border-width:0 0 2px 2px; }
+.ar-corner.br { bottom:140px; right:24px; border-width:0 2px 2px 0; }
+
+/* Scanning line */
+.ar-scan-line {
+  position:absolute;
+  left:0; right:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold), var(--green2), var(--gold), transparent);
+  animation:scan-line 2.5s ease-in-out infinite;
+  top:80px;
+}
+@keyframes scan-line {
+  0%{ top:80px; opacity:0; }
+  5%{ opacity:1; }
+  95%{ opacity:1; }
+  100%{ top:calc(100% - 140px); opacity:0; }
+}
+
+/* AR Top bar */
+.ar-topbar {
+  position:absolute;
+  top:0; left:0; right:0;
+  padding:.8rem 1.2rem;
+  background:linear-gradient(180deg, rgba(0,0,0,.7) 0%, transparent 100%);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:20;
+  pointer-events:all;
+}
+.ar-logo-small {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;
+  font-weight:700;
+  color:var(--cream);
+}
+.ar-logo-small span { color:var(--gold); }
+.ar-mode-badge {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--green2);
+  display:flex;
+  align-items:center;
+  gap:.4rem;
+}
+.ar-mode-badge::before {
+  content:'';
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--green2);
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+
+/* AR Close */
+.ar-close {
+  background:rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:50%;
+  width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  font-size:.9rem;
+  color:#fff;
+  transition:all .2s;
+}
+.ar-close:hover { background:rgba(200,168,75,.3); border-color:var(--gold); }
+
+/* AR Info Cards - floating POI markers */
+.ar-poi {
+  position:absolute;
+  transform:translate(-50%,-100%);
+  pointer-events:all;
+  cursor:pointer;
+  animation:poi-float 3s ease-in-out infinite;
+  z-index:15;
+}
+@keyframes poi-float {
+  0%,100%{ transform:translate(-50%,-100%) translateY(0); }
+  50%{ transform:translate(-50%,-100%) translateY(-10px); }
+}
+.ar-poi-pin {
+  width:12px; height:12px;
+  border-radius:50%;
+  margin:0 auto;
+  border:2px solid rgba(255,255,255,.8);
+  box-shadow:0 0 0 4px rgba(200,168,75,.3), 0 0 20px rgba(200,168,75,.5);
+  animation:pin-pulse 2s ease-in-out infinite;
+}
+@keyframes pin-pulse {
+  0%,100%{ box-shadow:0 0 0 4px rgba(200,168,75,.3), 0 0 20px rgba(200,168,75,.5); }
+  50%{ box-shadow:0 0 0 8px rgba(200,168,75,.15), 0 0 40px rgba(200,168,75,.7); }
+}
+.ar-poi-card {
+  background:rgba(13,15,10,.88);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(200,168,75,.4);
+  border-radius:6px;
+  padding:.7rem 1rem;
+  margin-bottom:.4rem;
+  min-width:160px;
+  max-width:220px;
+  box-shadow:0 8px 32px rgba(0,0,0,.6);
+  transition:all .25s;
+}
+.ar-poi:hover .ar-poi-card { border-color:var(--gold); transform:scale(1.04); }
+.ar-poi-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:.95rem;
+  font-weight:600;
+  color:var(--cream);
+  margin-bottom:.2rem;
+}
+.ar-poi-dist {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:.4rem;
+}
+.ar-poi-fact {
+  font-size:.72rem;
+  color:rgba(240,232,204,.65);
+  line-height:1.4;
+}
+.ar-poi-line {
+  width:1px;
+  background:linear-gradient(180deg, rgba(200,168,75,.6) 0%, transparent 100%);
+  height:24px;
+  margin:0 auto;
+}
+
+/* AR Bottom panel */
+.ar-bottom {
+  position:absolute;
+  bottom:0; left:0; right:0;
+  padding:1.5rem 1.5rem 2rem;
+  background:linear-gradient(0deg, rgba(0,0,0,.85) 0%, transparent 100%);
+  pointer-events:all;
+  z-index:20;
+}
+.ar-instructions {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  text-align:center;
+  margin-bottom:1rem;
+}
+.ar-controls {
+  display:flex;
+  gap:.8rem;
+  justify-content:center;
+}
+.ar-ctrl-btn {
+  background:rgba(13,15,10,.8);
+  border:1px solid rgba(200,168,75,.3);
+  border-radius:30px;
+  padding:.5rem 1.2rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  cursor:pointer;
+  transition:all .2s;
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+}
+.ar-ctrl-btn:hover { background:rgba(200,168,75,.15); border-color:var(--gold); }
+.ar-ctrl-btn.active { background:rgba(200,168,75,.2); border-color:var(--gold); color:var(--cream); }
+
+/* AR Permission screen */
+#ar-permission {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  z-index:30;
+  padding:2rem;
+  text-align:center;
+}
+.ar-perm-ico { font-size:4rem; margin-bottom:1.5rem; animation:float 3s ease-in-out infinite; }
+.ar-perm-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;
+  font-weight:700;
+  color:var(--cream);
+  margin-bottom:.8rem;
+}
+.ar-perm-desc { font-size:.9rem; color:var(--muted2); line-height:1.7; max-width:360px; margin-bottom:2rem; }
+
+/* AR Info detail panel (slide up) */
+#ar-detail-panel {
+  position:absolute;
+  bottom:0; left:0; right:0;
+  background:rgba(13,15,10,.96);
+  backdrop-filter:blur(24px);
+  border-top:1px solid var(--border2);
+  border-radius:16px 16px 0 0;
+  padding:1.5rem;
+  z-index:25;
+  transform:translateY(100%);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  pointer-events:all;
+  max-height:65vh;
+  overflow-y:auto;
+}
+#ar-detail-panel.open { transform:translateY(0); }
+.ar-panel-handle {
+  width:36px; height:3px;
+  background:rgba(255,255,255,.2);
+  border-radius:2px;
+  margin:0 auto 1.2rem;
+  cursor:pointer;
+}
+.ar-panel-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--cream);
+  margin-bottom:.3rem;
+}
+.ar-panel-cat {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:.8rem;
+}
+.ar-panel-desc { font-size:.88rem; color:var(--muted2); line-height:1.7; margin-bottom:1.2rem; }
+.ar-panel-facts {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.6rem;
+  margin-bottom:1.2rem;
+}
+.ar-panel-fact {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:.6rem .8rem;
+}
+.ar-panel-fact-key {
+  font-family:'JetBrains Mono',monospace;
+  font-size:.52rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.2rem;
+}
+.ar-panel-fact-val { font-size:.82rem; color:var(--cream); font-weight:500; }
+
+/* AR Demo mode label */
+.ar-demo-badge {
+  position:absolute;
+  top:76px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  background:rgba(200,168,75,.15);
+  border:1px solid rgba(200,168,75,.35);
+  color:var(--gold);
+  padding:.25rem .8rem;
+  border-radius:20px;
+  z-index:20;
+  pointer-events:none;
+}
+
+/* ── MOBILE ── */
+@media (max-width:900px) {
+  nav { padding:1rem 1.5rem; }
+  .nav-links { display:none; }
+  .nav-hamburger { display:flex; }
+  .hero { grid-template-columns:1fr; padding:2rem 1.5rem; padding-top:90px; }
+  .hero-right { display:none; }
+  .features-strip { grid-template-columns:1fr 1fr; padding:2rem 1.5rem; }
+  .section { padding:4rem 1.5rem; }
+  .pontos-grid, .pontos-all-grid { grid-template-columns:1fr 1fr; }
+  .gastro-grid { grid-template-columns:1fr; }
+  .sobre-grid { grid-template-columns:1fr; gap:2rem; }
+  .mapa-layout { grid-template-columns:1fr; height:auto; }
+  .mapa-sidebar { height:300px; }
+  .mapa-main { height:400px; }
+  .contato-layout { grid-template-columns:1fr; gap:3rem; padding:4rem 1.5rem; }
+  .roadmap-grid { grid-template-columns:1fr; }
+  .cities-grid { grid-template-columns:1fr 1fr; }
+  .team-grid { grid-template-columns:1fr; }
+  footer { grid-template-columns:1fr; }
+  .footer-copy { text-align:left; }
+  .detail-body { grid-template-columns:1fr; }
+  .page-header { padding:6rem 1.5rem 3rem; }
+  .detail-hero { padding:5rem 1.5rem 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="main-nav">
+  <div class="logo" onclick="goPage('home')">Reconec<span>tura</span></div>
+  <ul class="nav-links" id="nav-links">
+    <li><a onclick="goPage('home')" data-page="home">Início</a></li>
+    <li><a onclick="goPage('sobre')" data-page="sobre">Sobre</a></li>
+    <li><a onclick="goPage('pontos')" data-page="pontos">Pontos Turísticos</a></li>
+    <li><a onclick="goPage('mapa')" data-page="mapa">Mapa</a></li>
+    <li><a onclick="goPage('gastronomia')" data-page="gastronomia">Gastronomia</a></li>
+    <li><a onclick="goPage('contato')" data-page="contato">Contato</a></li>
+  </ul>
+  <div style="display:flex;gap:.6rem;align-items:center;">
+    <button class="nav-btn" style="background:transparent;color:var(--green2);border:1px solid rgba(74,175,80,.35);" onclick="openAR()">📱 AR</button>
+    <button class="nav-btn" onclick="goPage('contato')">Fale Conosco</button>
+  </div>
+  <div class="nav-hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Camaquã · Rio Grande do Sul · Brasil</div>
+      <h1 class="hero-title">
+        A história<br>
+        de Camaquã<br>
+        ao seu <em>alcance</em>
+      </h1>
+      <p class="hero-sub">Reconectura reúne patrimônio histórico, pontos turísticos, cultura local e comércio em uma única plataforma digital — para moradores e visitantes explorarem melhor a cidade.</p>
+      <div class="hero-btns">
+        <button class="btn btn-gold" onclick="goPage('pontos')">🗺 Explorar pontos turísticos</button>
+        <button class="btn btn-ghost" onclick="goPage('sobre')">Conheça o projeto</button>
+      </div>
+      <div class="hero-metrics">
+        <div><div class="metric-val">13</div><div class="metric-label">Pontos turísticos</div></div>
+        <div><div class="metric-val">1831</div><div class="metric-label">Fundação da cidade</div></div>
+        <div><div class="metric-val">3</div><div class="metric-label">Roteiros sugeridos</div></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div style="position:relative;width:100%;max-width:520px;">
+        <div class="hero-map-preview">
+          <div class="map-header">
+            <div class="map-dots"><div class="map-dot dot-r"></div><div class="map-dot dot-y"></div><div class="map-dot dot-g"></div></div>
+            <div class="map-title-bar">Mapa Turístico · Camaquã</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--muted)">13 pontos</div>
+          </div>
+          <div class="map-body">
+            <div class="map-paths"></div>
+            <div class="map-water"></div>
+            <!-- Roads -->
+            <div class="map-road" style="left:0;top:48%;width:100%;height:3px;"></div>
+            <div class="map-road" style="left:0;top:65%;width:100%;height:2px;opacity:.5;"></div>
+            <div class="map-road" style="left:42%;top:0;width:3px;height:100%;"></div>
+            <div class="map-road" style="left:62%;top:0;width:2px;height:60%;opacity:.5;"></div>
+            <!-- Pins -->
+            <div class="map-pin" style="left:45%;top:44%"><div class="pin-marker" style="background:var(--gold)"></div><div class="pin-tip">Pça. Zeca Netto</div></div>
+            <div class="map-pin" style="left:38%;top:60%"><div class="pin-marker" style="background:var(--teal)"></div><div class="pin-tip">Prainha</div></div>
+            <div class="map-pin" style="left:58%;top:38%"><div class="pin-marker" style="background:var(--rust)"></div><div class="pin-tip">Igreja Matriz</div></div>
+            <div class="map-pin" style="left:52%;top:55%"><div class="pin-marker" style="background:var(--green2)"></div><div class="pin-tip">SESC</div></div>
+            <div class="map-pin" style="left:66%;top:50%"><div class="pin-marker" style="background:#9b7fd4)"></div><div class="pin-tip">Coliseu</div></div>
+          </div>
+          <div class="map-footer">
+            <span class="map-count">13 pontos ativos</span>
+            <span class="map-badge">ver mapa completo</span>
+          </div>
+        </div>
+        <div class="hero-float f1">
+          <div class="float-tag">📍 Mais próximo</div>
+          <div class="float-val">Praça Zeca Netto</div>
+          <div class="float-sub">Centro · Histórico</div>
+        </div>
+        <div class="hero-float f2">
+          <div class="float-tag">🔭 Em breve</div>
+          <div class="float-val">Realidade Aumentada</div>
+          <div class="float-sub">Ver história ao vivo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES STRIP -->
+  <div class="features-strip">
+    <div class="feat"><div class="feat-ico">🏛️</div><div><div class="feat-text-title">Pontos Históricos</div><div class="feat-text-desc">13 locais históricos e turísticos catalogados com história, fotos e informações.</div></div></div>
+    <div class="feat"><div class="feat-ico">🗺️</div><div><div class="feat-text-title">Mapa Interativo</div><div class="feat-text-desc">Navegue pelos pontos turísticos com mapa e roteiros sugeridos pela cidade.</div></div></div>
+    <div class="feat"><div class="feat-ico">🍽️</div><div><div class="feat-text-title">Comércio Local</div><div class="feat-text-desc">Restaurantes, cafés e comércios próximos a cada ponto turístico.</div></div></div>
+    <div class="feat"><div class="feat-ico">📱</div><div><div class="feat-text-title">AR · Em breve</div><div class="feat-text-desc">Aponte o celular para locais históricos e veja a história ganhar vida.</div></div></div>
+  </div>
+
+  <!-- PONTOS TEASER -->
+  <div class="section">
+    <div class="sec-header">
+      <div>
+        <div class="sec-eyebrow">Patrimônio</div>
+        <h2 class="sec-title">Pontos históricos<br>e <em>turísticos</em></h2>
+        <p class="sec-desc">Explore os lugares que guardam a memória e a identidade de Camaquã.</p>
+      </div>
+      <button class="btn btn-ghost" onclick="goPage('pontos')">Ver todos os 13 pontos →</button>
+    </div>
+    <div class="pontos-grid">
+      <div class="ponto-card" onclick="goDetail('praca-zeca-netto')">
+        <div class="ponto-thumb"><div class="ponto-thumb-bg" style="background:linear-gradient(135deg,#1a3a1a,#3a6b2a)"></div><div class="ponto-thumb-overlay"></div><span class="ponto-cat-badge cat-praça">Praça</span></div>
+        <div class="ponto-body"><div class="ponto-name">Praça Zeca Netto</div><p class="ponto-short">Principal praça central de Camaquã, coração da vida urbana e social da cidade, com história que remonta ao século XIX.</p><div class="ponto-footer"><span class="ponto-dist">📍 Centro histórico</span><button class="ponto-cta">Ver mais →</button></div></div>
+      </div>
+      <div class="ponto-card" onclick="goDetail('prainha')">
+        <div class="ponto-thumb"><div class="ponto-thumb-bg" style="background:linear-gradient(135deg,#0a2a3a,#1a5a6a)"></div><div class="ponto-thumb-overlay"></div><span class="ponto-cat-badge cat-natural">Natural</span></div>
+        <div class="ponto-body"><div class="ponto-name">Prainha de Camaquã</div><p class="ponto-short">Área de lazer às margens do rio, ponto de encontro de famílias e turistas durante todo o ano.</p><div class="ponto-footer"><span class="ponto-dist">📍 Beira-rio</span><button class="ponto-cta">Ver mais →</button></div></div>
+      </div>
+      <div class="ponto-card" onclick="goDetail('igreja-matriz')">
+        <div class="ponto-thumb"><div class="ponto-thumb-bg" style="background:linear-gradient(135deg,#3a2a0a,#6a5020)"></div><div class="ponto-thumb-overlay"></div><span class="ponto-cat-badge cat-religioso">Religioso</span></div>
+        <div class="ponto-body"><div class="ponto-name">Igreja Matriz São João Batista</div><p class="ponto-short">Marco arquitetônico e religioso da cidade, a Igreja Matriz é um dos prédios mais emblemáticos de Camaquã.</p><div class="ponto-footer"><span class="ponto-dist">📍 Centro</span><button class="ponto-cta">Ver mais →</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AR TEASER BANNER -->
+  <div style="margin:0 3.5rem 4rem;background:linear-gradient(135deg,rgba(74,124,63,.12) 0%,rgba(200,168,75,.08) 50%,rgba(46,125,110,.1) 100%);border:1px solid rgba(74,124,63,.25);border-radius:6px;padding:3rem;display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);margin-bottom:.8rem">🔭 Tecnologia · Em breve</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--cream);margin-bottom:.8rem">Realidade Aumentada<br><em style="color:var(--gold)">para a história local</em></h3>
+      <p style="font-size:.9rem;color:var(--muted2);line-height:1.7;max-width:500px;font-weight:300">Em breve você poderá apontar a câmera do celular para qualquer ponto histórico de Camaquã e ver informações, fotos antigas e reconstruções digitais sobrepostas à realidade.</p>
+    </div>
+    <div style="text-align:center;min-width:160px;">
+      <div style="font-size:3.5rem;animation:float 3s ease-in-out infinite">📱</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.8rem">Cadastre-se para<br>ser notificado</div>
+      <button class="btn btn-ghost" style="margin-top:1rem;font-size:.75rem;padding:.6rem 1.2rem" onclick="openAR()">📱 Experimentar AR →</button>
+    </div>
+  </div>
+
+  <footer>
+    <div><div class="footer-logo">Reconec<span>tura</span></div><div class="footer-sub">Camaquã · Rio Grande do Sul · Brasil</div></div>
+    <div class="footer-copy">© 2024 Reconectura<br>Cultura · Turismo · Tecnologia</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: PONTOS (todos)
+════════════════════════════════════ -->
+<div id="page-pontos" class="page">
+  <div class="page-header">
+    <div class="sec-eyebrow">Patrimônio de Camaquã</div>
+    <h2 class="sec-title">Pontos Históricos<br>e <em>Turísticos</em></h2>
+    <p class="sec-desc" style="max-width:600px">Explore todos os 13 pontos turísticos catalogados de Camaquã — de praças históricas a cachoeiras, do teatro centenário ao parque histórico.</p>
+  </div>
+
+  <div class="section">
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterPontos('todos',this)">Todos (13)</button>
+      <button class="filter-btn" onclick="filterPontos('praça',this)">Praças</button>
+      <button class="filter-btn" onclick="filterPontos('cultural',this)">Cultural</button>
+      <button class="filter-btn" onclick="filterPontos('natural',this)">Natural</button>
+      <button class="filter-btn" onclick="filterPontos('religioso',this)">Religioso</button>
+      <button class="filter-btn" onclick="filterPontos('historico',this)">Histórico</button>
+      <button class="filter-btn" onclick="filterPontos('lazer',this)">Lazer</button>
+    </div>
+
+    <div class="pontos-all-grid" id="all-pontos-grid">
+      <!-- cards rendered by JS -->
+    </div>
+  </div>
+
+  <footer>
+    <div><div class="footer-logo">Reconec<span>tura</span></div><div class="footer-sub">Camaquã · Rio Grande do Sul · Brasil</div></div>
+    <div class="footer-copy">© 2024 Reconectura</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: PONTO DETAIL
+════════════════════════════════════ -->
+<div id="page-detail" class="page">
+  <div class="detail-hero" id="detail-hero">
+    <div class="detail-hero-bg" id="detail-hero-bg"></div>
+    <div class="detail-hero-overlay"></div>
+    <div class="detail-hero-content">
+      <div class="detail-breadcrumb" onclick="goPage('pontos')">← Voltar &nbsp;<span id="detail-cat-crumb"></span></div>
+      <div class="detail-cat" id="detail-cat-badge"></div>
+      <h1 class="detail-title" id="detail-title"></h1>
+      <p class="detail-tagline" id="detail-tagline"></p>
+    </div>
+  </div>
+
+  <div class="detail-body">
+    <div class="detail-main" id="detail-main"></div>
+    <div class="detail-sidebar" id="detail-sidebar"></div>
+  </div>
+
+  <footer>
+    <div><div class="footer-logo">Reconec<span>tura</span></div><div class="footer-sub">Camaquã · Rio Grande do Sul · Brasil</div></div>
+    <div class="footer-copy">© 2024 Reconectura</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: SOBRE
+════════════════════════════════════ -->
+<div id="page-sobre" class="page">
+  <div class="sobre-hero">
+    <div>
+      <div class="sec-eyebrow">O projeto</div>
+      <h2 class="sec-title" style="font-size:clamp(2.5rem,5vw,4.5rem)">Sobre a<br><em>Reconectura</em></h2>
+      <p class="sec-desc" style="max-width:560px;margin-top:.8rem">Uma startup cultural e tecnológica nascida em Camaquã para valorizar a história, fortalecer o turismo e conectar as pessoas ao patrimônio local.</p>
+    </div>
+  </div>
+
+  <div class="sobre-grid">
+    <div class="sobre-text">
+      <div class="sec-eyebrow">Nossa história</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--cream);margin-bottom:1.2rem">Por que a Reconectura<br>existe?</h3>
+      <p>Camaquã possui uma história rica, com praças centenárias, igrejas históricas, um teatro que marcou gerações, parques naturais e um patrimônio cultural profundo. Mas essa história está fragmentada.</p>
+      <p>Turistas chegam à cidade sem saber o que visitar. Moradores crescem sem conhecer a história do lugar onde vivem. Comerciantes locais perdem visibilidade. E parte da memória da cidade se perde a cada geração.</p>
+      <p>A Reconectura nasceu para mudar esse cenário. Somos uma plataforma digital que centraliza, organiza e apresenta tudo isso de forma acessível, bonita e moderna — conectando história, turismo, cultura e comércio local.</p>
+      <div style="margin-top:2rem"><button class="btn btn-gold" onclick="goPage('pontos')">Explorar pontos turísticos →</button></div>
+    </div>
+    <div class="sobre-values">
+      <div class="value-card"><div class="value-ico">🏛️</div><div class="value-title">Preservação</div><div class="value-desc">Documentar e digitalizar o patrimônio histórico antes que ele se perca.</div></div>
+      <div class="value-card"><div class="value-ico">🌐</div><div class="value-title">Acessibilidade</div><div class="value-desc">Tornar a história local fácil de encontrar, entender e vivenciar.</div></div>
+      <div class="value-card"><div class="value-ico">🤝</div><div class="value-title">Comunidade</div><div class="value-desc">Fortalecer o comércio e a economia local conectando cultura e turismo.</div></div>
+      <div class="value-card"><div class="value-ico">🔬</div><div class="value-title">Inovação</div><div class="value-desc">Usar tecnologia — incluindo realidade aumentada — para dar vida à história.</div></div>
+      <div class="value-card"><div class="value-ico">📚</div><div class="value-title">Educação</div><div class="value-desc">Criar conteúdo educativo que conecte novas gerações à história da cidade.</div></div>
+      <div class="value-card"><div class="value-ico">🗺️</div><div class="value-title">Expansão</div><div class="value-desc">Levar o modelo Reconectura para outras cidades do Rio Grande do Sul e Brasil.</div></div>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <div class="sec-eyebrow">Time</div>
+    <h2 class="sec-title">As pessoas por trás<br>do <em>projeto</em></h2>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">👩‍💻</div><div class="team-name">Fundadora</div><div class="team-role">Produto & Estratégia</div><div class="team-bio">Apaixonada pela história de Camaquã e determinada a torná-la acessível para todos.</div></div>
+      <div class="team-card"><div class="team-avatar">🎨</div><div class="team-name">Design & UX</div><div class="team-role">Experiência do Usuário</div><div class="team-bio">Responsável por criar uma plataforma bonita, intuitiva e que honra o patrimônio local.</div></div>
+      <div class="team-card"><div class="team-avatar">🛠️</div><div class="team-name">Tecnologia</div><div class="team-role">Desenvolvimento</div><div class="team-bio">Construindo a infraestrutura tecnológica que vai trazer a história para o mundo digital.</div></div>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="roadmap-section">
+    <div class="sec-eyebrow">Visão de futuro</div>
+    <h2 class="sec-title">Roadmap &<br><em>crescimento</em></h2>
+    <div class="roadmap-grid">
+      <div class="roadmap-list">
+        <div class="rm-item"><div class="rm-dot">✅</div><div><div class="rm-phase">Fase 1 · MVP Atual</div><div class="rm-title">Plataforma Web de Camaquã</div><div class="rm-desc">Site com 13 pontos turísticos, mapa interativo, gastronomia e informações históricas.</div></div></div>
+        <div class="rm-item"><div class="rm-dot">📱</div><div><div class="rm-phase">Fase 2 · Próximos meses</div><div class="rm-title">App Mobile + GPS</div><div class="rm-desc">Aplicativo com localização em tempo real, notificações por proximidade e roteiros guiados.</div></div></div>
+        <div class="rm-item"><div class="rm-dot">🔭</div><div><div class="rm-phase">Fase 3 · Em desenvolvimento</div><div class="rm-title">Realidade Aumentada</div><div class="rm-desc">Aponte o celular para pontos históricos e veja fotos antigas, fatos e reconstruções digitais.</div></div></div>
+        <div class="rm-item"><div class="rm-dot">🏢</div><div><div class="rm-phase">Fase 4 · Futuro próximo</div><div class="rm-title">Portal para Comércios Locais</div><div class="rm-desc">Cadastro de restaurantes, cafés e lojas com visibilidade para turistas e visitantes.</div></div></div>
+        <div class="rm-item"><div class="rm-dot">🌎</div><div><div class="rm-phase">Fase 5 · Visão</div><div class="rm-title">Expansão Nacional</div><div class="rm-desc">Modelo replicável para cidades de todo o Brasil que querem valorizar seu patrimônio histórico.</div></div></div>
+      </div>
+      <div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2rem;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem">Impacto esperado</div>
+          <div style="display:flex;flex-direction:column;gap:1.2rem;">
+            <div style="display:flex;align-items:center;gap:1rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)"><span style="font-size:1.5rem">🏛️</span><div><div style="font-size:.88rem;font-weight:600;color:var(--cream)">Preservação cultural</div><div style="font-size:.75rem;color:var(--muted);line-height:1.4">Digitalizar a memória histórica de Camaquã antes que ela se perca.</div></div></div>
+            <div style="display:flex;align-items:center;gap:1rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)"><span style="font-size:1.5rem">📈</span><div><div style="font-size:.88rem;font-weight:600;color:var(--cream)">Economia local</div><div style="font-size:.75rem;color:var(--muted);line-height:1.4">Aumentar o fluxo de turistas e a visibilidade do comércio local.</div></div></div>
+            <div style="display:flex;align-items:center;gap:1rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)"><span style="font-size:1.5rem">🎓</span><div><div style="font-size:.88rem;font-weight:600;color:var(--cream)">Educação</div><div style="font-size:.75rem;color:var(--muted);line-height:1.4">Material educativo sobre história local para escolas e comunidade.</div></div></div>
+            <div style="display:flex;align-items:center;gap:1rem"><span style="font-size:1.5rem">🌎</span><div><div style="font-size:.88rem;font-weight:600;color:var(--cream)">Escalabilidade</div><div style="font-size:.75rem;color:var(--muted);line-height:1.4">Modelo replicável para centenas de cidades brasileiras.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CIDADES -->
+  <div class="cities-section">
+    <div class="sec-eyebrow">Expansão</div>
+    <h2 class="sec-title">Próximas <em>cidades</em></h2>
+    <p class="sec-desc">Após consolidar Camaquã, a Reconectura vai levar sua plataforma para outras cidades ricas em história e cultura.</p>
+    <div class="cities-grid">
+      <div class="city-card"><div class="city-flag">🏙️</div><div class="city-name">Camaquã</div><div class="city-state">Rio Grande do Sul</div><span class="city-status status-active">Ativo · MVP</span></div>
+      <div class="city-card"><div class="city-flag">🏘️</div><div class="city-name">Pelotas</div><div class="city-state">Rio Grande do Sul</div><span class="city-status status-soon">Em breve</span></div>
+      <div class="city-card"><div class="city-flag">🌄</div><div class="city-name">Canguçu</div><div class="city-state">Rio Grande do Sul</div><span class="city-status status-soon">Em breve</span></div>
+      <div class="city-card"><div class="city-flag">🏔️</div><div class="city-name">São Lourenço</div><div class="city-state">Rio Grande do Sul</div><span class="city-status status-planned">Planejado</span></div>
+    </div>
+  </div>
+
+  <footer>
+    <div><div class="footer-logo">Reconec<span>tura</span></div><div class="footer-sub">Camaquã · Rio Grande do Sul · Brasil</div></div>
+    <div class="footer-copy">© 2024 Reconectura</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: MAPA
+════════════════════════════════════ -->
+<div id="page-mapa" class="page">
+  <div class="mapa-layout">
+    <div class="mapa-sidebar">
+      <div class="mapa-sidebar-title">📍 Pontos turísticos · Camaquã</div>
+      <div id="mapa-list-items"></div>
+    </div>
+    <div class="mapa-main">
+      <iframe class="mapa-iframe"
+        src="https://maps.google.com/maps?q=Camaquã,+Rio+Grande+do+Sul,+Brasil&z=14&output=embed"
+        allowfullscreen loading="lazy" title="Mapa Camaquã">
+      </iframe>
+      <div class="mapa-overlay-badge">📍 Camaquã · 13 pontos</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: GASTRONOMIA
+════════════════════════════════════ -->
+<div id="page-gastronomia" class="page">
+  <div class="page-header">
+    <div class="sec-eyebrow">Sabores locais</div>
+    <h2 class="sec-title">Restaurantes &<br><em>comércios</em> próximos</h2>
+    <p class="sec-desc" style="max-width:560px">Complete sua visita à Camaquã com o que há de melhor na gastronomia e no comércio local — próximos aos principais pontos turísticos.</p>
+  </div>
+  <div class="section">
+    <div class="gastro-grid">
+      <div class="gastro-card"><div class="gastro-ico">🍖</div><div class="gastro-name">Churrascaria Gaúcha</div><div class="gastro-type">Restaurante · Tradicional</div><p class="gastro-desc">Carnes nobres grelhadas na brasa com o tempero autêntico do pampa gaúcho. Ambiente familiar e aconchegante.</p><div class="gastro-tags"><span class="gastro-tag">Churrasco</span><span class="gastro-tag">Gaúcho</span><span class="gastro-tag">Almoço</span></div><div class="gastro-near">Próximo a: <span>Praça Zeca Netto</span></div></div>
+      <div class="gastro-card"><div class="gastro-ico">☕</div><div class="gastro-name">Café do Largo</div><div class="gastro-type">Café · Colonial</div><p class="gastro-desc">Café colonial com produtos artesanais, pães e doces caseiros. Perfeito para uma pausa entre os pontos turísticos do centro.</p><div class="gastro-tags"><span class="gastro-tag">Café</span><span class="gastro-tag">Colonial</span><span class="gastro-tag">Centro</span></div><div class="gastro-near">Próximo a: <span>Igreja Matriz</span></div></div>
+      <div class="gastro-card"><div class="gastro-ico">🐟</div><div class="gastro-name">Peixaria do Rio</div><div class="gastro-type">Restaurante · Frutos do Mar</div><p class="gastro-desc">Peixes frescos do rio Camaquã e da Lagoa dos Patos, preparados com receitas tradicionais da região.</p><div class="gastro-tags"><span class="gastro-tag">Pescados</span><span class="gastro-tag">Regional</span><span class="gastro-tag">Beira-rio</span></div><div class="gastro-near">Próximo a: <span>Prainha de Camaquã</span></div></div>
+      <div class="gastro-card"><div class="gastro-ico">🍺</div><div class="gastro-name">Bar da Praça</div><div class="gastro-type">Bar · Petiscos</div><p class="gastro-desc">Bar tradicional com petiscos regionais, chopp gelado e ambiente descontraído no coração da cidade.</p><div class="gastro-tags"><span class="gastro-tag">Petiscos</span><span class="gastro-tag">Chopp</span><span class="gastro-tag">Noturno</span></div><div class="gastro-near">Próximo a: <span>Pça. Donário Lopes</span></div></div>
+      <div class="gastro-card"><div class="gastro-ico">🛍️</div><div class="gastro-name">Artesanato Pampa</div><div class="gastro-type">Comércio · Artesanato</div><p class="gastro-desc">Loja de artesanato local com produtos feitos por artesãos da região. Souvenirs autênticos de Camaquã.</p><div class="gastro-tags"><span class="gastro-tag">Artesanato</span><span class="gastro-tag">Souvenirs</span><span class="gastro-tag">Local</span></div><div class="gastro-near">Próximo a: <span>SESC Camaquã</span></div></div>
+      <div class="gastro-card"><div class="gastro-ico">🎂</div><div class="gastro-name">Doceria Colonial</div><div class="gastro-type">Doceria · Confeitaria</div><p class="gastro-desc">Doces coloniais e bolos artesanais com receitas tradicionais gaúchas. Ideal para uma sobremesa especial.</p><div class="gastro-tags"><span class="gastro-tag">Doces</span><span class="gastro-tag">Colonial</span><span class="gastro-tag">Artesanal</span></div><div class="gastro-near">Próximo a: <span>CTG Camaquã</span></div></div>
+    </div>
+  </div>
+  <footer>
+    <div><div class="footer-logo">Reconec<span>tura</span></div><div class="footer-sub">Camaquã · Rio Grande do Sul · Brasil</div></div>
+    <div class="footer-copy">© 2024 Reconectura</div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════
+     PAGE: CONTATO
+════════════════════════════════════ -->
+<div id="page-contato" class="page">
+  <div class="page-header">
+    <div class="sec-eyebrow">Fale conosco</div>
+    <h2 class="sec-title">Faça parte da<br><em>Reconectura</em></h2>
+    <p class="sec-desc" style="max-width:560px">Seja você morador, pesquisador, empreendedor, comerciante ou apenas um apaixonado pela história de Camaquã — queremos ouvir você.</p>
+  </div>
+  <div class="contato-layout">
+    <div class="contato-info">
+      <div class="sec-eyebrow">Informações</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--cream);margin-bottom:1rem">Vamos conversar?</h3>
+      <p>Temos interesse em ouvir moradores, turistas, pesquisadores, professores, comerciantes e qualquer pessoa que queira contribuir para preservar e valorizar a história de Camaquã.</p>
+      <div class="contato-detail" style="margin-top:2rem">
+        <div class="contact-detail"><div class="cd-ico">📍</div><div><div class="cd-label">Localização</div><div class="cd-val">Camaquã, Rio Grande do Sul, Brasil</div></div></div>
+        <div class="contact-detail"><div class="cd-ico">✉️</div><div><div class="cd-label">E-mail</div><div class="cd-val">contato@reconectura.com.br</div></div></div>
+        <div class="contact-detail"><div class="cd-ico">📱</div><div><div class="cd-label">WhatsApp</div><div class="cd-val">(51) 9 9999-9999</div></div></div>
+        <div class="contact-detail"><div class="cd-ico">🌐</div><div><div class="cd-label">Redes sociais</div><div class="cd-val">@reconectura</div></div></div>
+      </div>
+      <div class="social-row">
+        <a class="soc-btn" title="Instagram">📸</a>
+        <a class="soc-btn" title="Facebook">👥</a>
+        <a class="soc-btn" title="WhatsApp">💬</a>
+        <a class="soc-btn" title="YouTube">▶️</a>
+      </div>
+      <div style="margin-top:2rem;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.3rem;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem">🔔 Seja notificado</div>
+        <p style="font-size:.82rem;color:var(--muted);line-height:1.5">Quer ser o primeiro a saber quando o app mobile e a realidade aumentada estiverem disponíveis? Deixe seu e-mail no formulário.</p>
+      </div>
+    </div>
+    <div class="form-card">
+      <h3>Enviar mensagem</h3>
+      <div class="form-row"><label class="form-label">Nome completo</label><input class="form-input" type="text" placeholder="Seu nome"></div>
+      <div class="form-row"><label class="form-label">E-mail</label><input class="form-input" type="email" placeholder="seu@email.com"></div>
+      <div class="form-row"><label class="form-label">Assunto</label>
+        <select class="form-select">
+          <option value="">Selecione um assunto</option>
+          <option>Sou morador e quero contribuir com informações</option>
+          <option>Sou comerciante e quero cadastrar meu negócio</option>
+          <option>Sou pesquisador ou historiador</option>
+          <option>Sou turista com sugestões</option>
+          <option>Quero ser notificado sobre o app AR</option>
+          <option>Parceria ou investimento</option>
+          <option>Imprensa</option>
+          <option>Outro assunto</option>
+        </select>
+      </div>
+      <div class="form-row"><label class="form-label">Mensagem</label><textarea class="form-input" placeholder="Conte-nos mais sobre sua ideia, sugestão ou como você pode contribuir..."></textarea></div>
+      <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="submitForm()">Enviar mensagem ✓</button>
+    </div>
+  </div>
+  <footer>
+    <div><div class="footer-logo">Reconec<span>tura</span></div><div class="footer-sub">Camaquã · Rio Grande do Sul · Brasil</div></div>
+    <div class="footer-copy">© 2024 Reconectura</div>
+  </footer>
+</div>
+
+<!-- ═══ PARTICLES CANVAS ═══ -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- ════════════════════════════════════
+     PAGE: AR (Realidade Aumentada)
+════════════════════════════════════ -->
+<div id="page-ar">
+  <!-- Video feed -->
+  <video id="ar-video" autoplay playsinline muted></video>
+
+  <!-- Permission screen -->
+  <div id="ar-permission">
+    <div class="ar-perm-ico">📱</div>
+    <div class="ar-perm-title">Realidade Aumentada</div>
+    <p class="ar-perm-desc">Aponte a câmera para qualquer ponto histórico de Camaquã e veja informações, fatos históricos e curiosidades surgindo na tela em tempo real.</p>
+    <button class="btn btn-gold" onclick="startAR()" style="margin-bottom:.8rem">📷 Ativar câmera</button>
+    <button class="btn btn-ghost" onclick="startARDemo()" style="font-size:.8rem">🎭 Modo demonstração (sem câmera)</button>
+    <div style="margin-top:1.5rem;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Funciona no celular · Melhor experiência outdoor</div>
+    <button class="ar-close" onclick="closeAR()" style="margin-top:1.5rem;width:auto;border-radius:4px;padding:.5rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;">← Voltar ao site</button>
+  </div>
+
+  <!-- HUD -->
+  <div id="ar-hud" style="display:none;">
+    <div class="ar-scan-grid"></div>
+    <div class="ar-scan-line"></div>
+
+    <!-- Corner brackets -->
+    <div class="ar-corner tl"></div>
+    <div class="ar-corner tr"></div>
+    <div class="ar-corner bl"></div>
+    <div class="ar-corner br"></div>
+
+    <!-- Demo badge -->
+    <div class="ar-demo-badge" id="ar-demo-label" style="display:none">🎭 Modo Demonstração</div>
+
+    <!-- POI Markers (rendered by JS) -->
+    <div id="ar-pois"></div>
+  </div>
+
+  <!-- Top bar -->
+  <div class="ar-topbar">
+    <div class="ar-logo-small">Reconec<span>tura</span></div>
+    <div class="ar-mode-badge" id="ar-status">Escaneando...</div>
+    <button class="ar-close" onclick="closeAR()">✕</button>
+  </div>
+
+  <!-- Bottom controls -->
+  <div class="ar-bottom" id="ar-bottom-controls" style="display:none;">
+    <div class="ar-instructions">Mova a câmera para detectar pontos históricos</div>
+    <div class="ar-controls">
+      <button class="ar-ctrl-btn active" id="btn-historico" onclick="setARFilter('historico',this)">🏛 Histórico</button>
+      <button class="ar-ctrl-btn" id="btn-natural" onclick="setARFilter('natural',this)">🌿 Natural</button>
+      <button class="ar-ctrl-btn" id="btn-todos" onclick="setARFilter('todos',this)">📍 Todos</button>
+    </div>
+  </div>
+
+  <!-- Slide-up detail panel -->
+  <div id="ar-detail-panel">
+    <div class="ar-panel-handle" onclick="closeARPanel()"></div>
+    <div id="ar-panel-content"></div>
+    <div style="display:flex;gap:.8rem;margin-top:1rem;">
+      <button class="btn btn-gold" style="flex:1;justify-content:center;font-size:.82rem" onclick="goDetailFromAR()">Ver página completa →</button>
+      <button class="btn btn-ghost" style="font-size:.82rem;padding:.7rem 1rem" onclick="closeARPanel()">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DATA + JS ═══ -->
+<script>
+// ── DATA ──
+const PONTOS = [
+  {
+    id:'praca-zeca-netto',
+    name:'Praça Zeca Netto',
+    cat:'praça',
+    catLabel:'Praça',
+    short:'Principal praça central de Camaquã, coração da vida urbana e social da cidade.',
+    tagline:'O coração histórico e social de Camaquã — onde a cidade se encontra.',
+    gradient:'linear-gradient(135deg,#1a3a1a 0%,#3a6b2a 50%,#1a4a20 100%)',
+    dist:'Centro histórico',
+    desc:`A Praça Zeca Netto é o centro nevrálgico de Camaquã. Palco de eventos culturais, manifestações cívicas, feiras e do cotidiano dos moradores, ela concentra ao redor algumas das edificações mais importantes da cidade.
+    
+Com sua arborização cuidada, bancos históricos e monumentos, a praça convida moradores e turistas a desacelerarem e apreciarem o ambiente. Ao redor dela é possível encontrar comércios tradicionais, o calçadão e serviços públicos.`,
+    historia:`A praça recebeu o nome em homenagem a Zeca Netto, figura importante na história política e cultural de Camaquã. Ao longo dos séculos, o espaço passou por diversas reformas e ampliações, sempre mantendo seu papel central na vida da cidade.`,
+    facts:[['Tipo','Praça pública histórica'],['Localização','Centro de Camaquã'],['Acesso','Gratuito — aberto ao público'],['Destaque','Centro cívico e cultural']],
+    nearby:['Igreja Matriz São João Batista','Praça Donário Lopes','Cine Teatro Coliseu']
+  },
+  {
+    id:'prainha',
+    name:'Prainha de Camaquã',
+    cat:'natural',
+    catLabel:'Lazer Natural',
+    short:'Área de lazer às margens do rio, ponto de encontro de famílias e turistas.',
+    tagline:'Onde a cidade encontra o rio — natureza, lazer e descanso.',
+    gradient:'linear-gradient(135deg,#0a2a3a 0%,#1a5a6a 50%,#0a3a4a 100%)',
+    dist:'Beira-rio',
+    desc:`A Prainha de Camaquã é um dos pontos de lazer mais queridos pelos moradores e visitantes. Localizada às margens do rio, o espaço oferece área verde, paisagem natural e ambiente tranquilo para famílias, crianças e quem busca um momento de relaxamento.
+
+O local é especialmente movimentado nos finais de semana e nos meses mais quentes, tornando-se um ponto de encontro natural para toda a comunidade.`,
+    historia:`A Prainha representa a relação histórica de Camaquã com seu rio, que por séculos foi fonte de vida, transporte e economia para a região. A proximidade com a água sempre foi parte da identidade cultural da cidade.`,
+    facts:[['Tipo','Área de lazer natural'],['Localização','Beira-rio de Camaquã'],['Acesso','Gratuito'],['Melhor época','Primavera e Verão']],
+    nearby:['Peixaria do Rio','Praça Zeca Netto','Barragem do Arroio Duro']
+  },
+  {
+    id:'praca-donario',
+    name:'Praça Donário Lopes',
+    cat:'praça',
+    catLabel:'Praça',
+    short:'Praça histórica que homenageia importante figura da cidade, com área verde e estrutura de lazer.',
+    tagline:'Homenagem a quem ajudou a construir Camaquã.',
+    gradient:'linear-gradient(135deg,#2a1a3a 0%,#4a3a6a 50%,#3a2a5a 100%)',
+    dist:'Centro',
+    desc:`A Praça Donário Lopes é um dos espaços públicos de maior relevância histórica do município. Batizada em homenagem a uma figura importante da história de Camaquã, a praça oferece área verde, espaço de convivência e está integrada ao cotidiano da cidade.
+
+O espaço é frequentado por moradores de todas as idades e serve como ponto de encontro e passagem no centro da cidade.`,
+    historia:`Nomeada em homenagem a Donário Lopes, personalidade relevante no desenvolvimento social e político de Camaquã, a praça carrega em seu nome a memória de quem contribuiu para a formação da identidade local.`,
+    facts:[['Tipo','Praça histórica'],['Localização','Centro de Camaquã'],['Acesso','Gratuito'],['Destaque','Homenagem histórica']],
+    nearby:['Praça Zeca Netto','Bar da Praça','Praça Coronel Sylvio Luiz']
+  },
+  {
+    id:'igreja-matriz',
+    name:'Igreja Matriz São João Batista',
+    cat:'religioso',
+    catLabel:'Patrimônio Religioso',
+    short:'Marco arquitetônico e espiritual de Camaquã, a Igreja Matriz é um dos prédios mais emblemáticos da cidade.',
+    tagline:'Fé, história e arquitetura — o coração espiritual de Camaquã.',
+    gradient:'linear-gradient(135deg,#3a2a0a 0%,#6a5020 50%,#4a3818 100%)',
+    dist:'Centro',
+    desc:`A Igreja Matriz São João Batista é, sem dúvida, um dos pontos mais icônicos e fotografados de Camaquã. Com sua arquitetura marcante, a igreja domina a paisagem do centro histórico e representa séculos de fé e cultura local.
+
+A edificação é ponto de peregrinação religiosa, destino turístico e patrimônio histórico ao mesmo tempo. Sua torre, vitrais e fachada contam uma história que se confunde com a própria história da cidade.`,
+    historia:`Dedicada a São João Batista, padroeiro da cidade, a Igreja Matriz foi erguida ao longo de décadas e passou por reformas e ampliações que a tornaram o que é hoje. Sua construção mobilizou gerações de camaquaenses e representa a devoção e o esforço coletivo da comunidade.`,
+    facts:[['Tipo','Igreja histórica'],['Padroeiro','São João Batista'],['Localização','Centro de Camaquã'],['Acesso','Gratuito · verificar horários']],
+    nearby:['Praça Zeca Netto','Café do Largo','Cine Teatro Coliseu']
+  },
+  {
+    id:'praca-coronel-sylvio',
+    name:'Praça Coronel Sylvio Luiz',
+    cat:'praça',
+    catLabel:'Praça Histórica',
+    short:'Praça em homenagem ao Coronel Sylvio Luiz, com elementos históricos e área de convivência.',
+    tagline:'A memória militar e cívica preservada em pedra e verde.',
+    gradient:'linear-gradient(135deg,#1a2a3a 0%,#2a4a5a 50%,#1a3a4a 100%)',
+    dist:'Centro-sul',
+    desc:`A Praça Coronel Sylvio Luiz é um espaço público que homenageia uma das figuras militares e políticas de destaque da história de Camaquã. O local oferece área verde, espaço de descanso e elementos que recordam a trajetória de seu homenageado.
+
+É um ponto de passagem e encontro para moradores, e guarda em seu nome um fragmento importante da história local.`,
+    historia:`O Coronel Sylvio Luiz foi uma figura de destaque no cenário político e militar da região, e a praça que leva seu nome representa o reconhecimento da comunidade camaquaense pela sua contribuição à história local.`,
+    facts:[['Tipo','Praça histórica'],['Localização','Camaquã'],['Acesso','Gratuito'],['Destaque','Homenagem militar e cívica']],
+    nearby:['Praça Zeca Netto','Praça Lola Zenker','CTG Camaquã']
+  },
+  {
+    id:'praca-lola-zenker',
+    name:'Praça Lola Zenker',
+    cat:'praça',
+    catLabel:'Praça',
+    short:'Espaço público que homenageia Lola Zenker, personalidade cultural de Camaquã.',
+    tagline:'Cultura e memória viva no coração da cidade.',
+    gradient:'linear-gradient(135deg,#2a0a2a 0%,#5a2a5a 50%,#3a1a4a 100%)',
+    dist:'Centro',
+    desc:`A Praça Lola Zenker homenageia uma das personalidades culturais da história de Camaquã. O espaço combina área verde, lazer e o reconhecimento à contribuição cultural de sua homenageada para a cidade.
+
+É um dos exemplos de como a cidade preserva a memória de suas figuras importantes através de seus espaços públicos.`,
+    historia:`Lola Zenker foi uma figura relevante no cenário cultural de Camaquã, e a praça que carrega seu nome é um tributo permanente ao seu legado e à importância da cultura na formação da identidade local.`,
+    facts:[['Tipo','Praça cultural'],['Localização','Camaquã'],['Acesso','Gratuito'],['Destaque','Homenagem cultural']],
+    nearby:['SESC Camaquã','Centro Cultural','Praça Zeca Netto']
+  },
+  {
+    id:'sesc-camaqua',
+    name:'SESC Camaquã',
+    cat:'cultural',
+    catLabel:'Cultural & Lazer',
+    short:'Unidade do SESC que oferece cultura, esporte, lazer e programação cultural para toda a comunidade.',
+    tagline:'Cultura, saúde e lazer para toda a comunidade camaquaense.',
+    gradient:'linear-gradient(135deg,#0a2a1a 0%,#1a5a3a 50%,#0a3a28 100%)',
+    dist:'Centro',
+    desc:`O SESC Camaquã é um dos principais centros de cultura e lazer da cidade. Com programação diversificada, o espaço oferece atividades culturais, esportivas, educativas e de saúde para trabalhadores do comércio e seus familiares, além de estar aberto para toda a comunidade em muitas de suas atividades.
+
+O local recebe shows, exposições, oficinas, peças teatrais e eventos que animam a vida cultural de Camaquã durante todo o ano.`,
+    historia:`O SESC (Serviço Social do Comércio) chegou a Camaquã para fortalecer a vida cultural e social da cidade, tornando-se ao longo do tempo um dos pilares da vida comunitária local.`,
+    facts:[['Tipo','Centro de cultura e lazer'],['Funcionamento','Verificar horários no local'],['Acesso','Parcialmente gratuito'],['Destaque','Programação cultural anual']],
+    nearby:['Praça Lola Zenker','Artesanato Pampa','CTG Camaquã']
+  },
+  {
+    id:'ctg-camaqua',
+    name:'CTG Camaquã',
+    cat:'cultural',
+    catLabel:'Cultura Gaúcha',
+    short:'Centro de Tradições Gaúchas que preserva e celebra a cultura e identidade do povo gaúcho.',
+    tagline:'A chama da tradição gaúcha sempre acesa em Camaquã.',
+    gradient:'linear-gradient(135deg,#3a1a0a 0%,#7a3a1a 50%,#5a2a10 100%)',
+    dist:'Camaquã',
+    desc:`O Centro de Tradições Gaúchas (CTG) de Camaquã é o guardião das tradições e da cultura gaúcha na cidade. O espaço promove danças folclóricas, festividades típicas, rodeios e eventos culturais que mantêm viva a identidade gaúcha das novas gerações.
+
+Frequentado por famílias e grupos de prendas e peões, o CTG é um espaço de convivência, aprendizado e celebração da cultura pampeana que tanto influencia a história e o modo de vida de Camaquã.`,
+    historia:`O movimento tradicionalista gaúcho chegou a Camaquã para preservar as raízes culturais em meio à modernização. O CTG local é parte de uma rede que mantém a cultura gaúcha viva em todo o Rio Grande do Sul.`,
+    facts:[['Tipo','Centro de Tradições Gaúchas'],['Localização','Camaquã'],['Destaque','Festividades gaúchas'],['Acesso','Verificar eventos e horários']],
+    nearby:['Doceria Colonial','Praça Coronel Sylvio Luiz','SESC Camaquã']
+  },
+  {
+    id:'cascata-barbosa-lessa',
+    name:'Cascata Barbosa Lessa',
+    cat:'natural',
+    catLabel:'Atrativo Natural',
+    short:'Bela cascata natural nos arredores de Camaquã, ideal para ecoturismo e contato com a natureza.',
+    tagline:'A natureza selvagem a poucos minutos do centro da cidade.',
+    gradient:'linear-gradient(135deg,#0a2a0a 0%,#1a5a2a 50%,#103a18 100%)',
+    dist:'Arredores da cidade',
+    desc:`A Cascata Barbosa Lessa é um dos mais belos atrativos naturais da região de Camaquã. Com suas águas cristalinas caindo em meio à vegetação nativa, o local é ideal para quem busca ecoturismo, contato com a natureza, piqueniques e caminhadas.
+
+O acesso exige deslocamento até os arredores da cidade, mas a recompensa é uma paisagem natural preservada que encanta visitantes e moradores.`,
+    historia:`Batizada com o nome de Barbosa Lessa, personalidade gaúcha ligada ao tradicionalismo e à cultura, a cascata carrega em seu nome a homenagem a alguém que ajudou a documentar e preservar as tradições do Rio Grande do Sul.`,
+    facts:[['Tipo','Cascata natural'],['Localização','Arredores de Camaquã'],['Acesso','Gratuito · carro necessário'],['Melhor época','Após chuvas / Primavera']],
+    nearby:['Pedreira de Camaquã','Parque Histórico Bento Gonçalves','Barragem do Arroio Duro']
+  },
+  {
+    id:'pedreira-camaqua',
+    name:'Pedreira de Camaquã',
+    cat:'natural',
+    catLabel:'Geologia & Natureza',
+    short:'Formação rochosa de interesse geológico e paisagístico nos arredores de Camaquã.',
+    tagline:'A história da terra escrita nas rochas — patrimônio geológico de Camaquã.',
+    gradient:'linear-gradient(135deg,#2a1a0a 0%,#5a3a18 50%,#3a2810 100%)',
+    dist:'Arredores',
+    desc:`A Pedreira de Camaquã é um atrativo geológico e paisagístico único na região. As formações rochosas expõem camadas de história geológica que impressionam pelo porte e pela beleza natural, tornando o local um destino interessante para visitantes que apreciam natureza e ciência.
+
+O local também oferece perspectivas privilegiadas da paisagem regional.`,
+    historia:`As pedreiras da região foram importantes para o desenvolvimento da construção civil local, fornecendo material para edificações históricas da cidade. Hoje, além do interesse geológico, o local tem valor histórico e paisagístico.`,
+    facts:[['Tipo','Formação geológica'],['Localização','Arredores de Camaquã'],['Acesso','Verificar condições de acesso'],['Destaque','Interesse geológico e paisagístico']],
+    nearby:['Cascata Barbosa Lessa','Barragem do Arroio Duro','Parque Histórico Bento Gonçalves']
+  },
+  {
+    id:'cine-teatro-coliseu',
+    name:'Cine Teatro Coliseu',
+    cat:'historico',
+    catLabel:'Patrimônio Histórico',
+    short:'Histórico cinema e teatro que marcou gerações de camaquaenses e é símbolo cultural da cidade.',
+    tagline:'O palco que marcou gerações — patrimônio cultural vivo de Camaquã.',
+    gradient:'linear-gradient(135deg,#2a0a0a 0%,#5a1a1a 50%,#3a1010 100%)',
+    dist:'Centro histórico',
+    desc:`O Cine Teatro Coliseu é um dos mais importantes patrimônios históricos e culturais de Camaquã. Por décadas, o espaço foi o principal ponto de entretenimento, arte e cultura da cidade, recebendo filmes, peças teatrais e apresentações que marcaram a memória afetiva de gerações de camaquaenses.
+
+Sua arquitetura, fachada e história fazem do Coliseu um símbolo insubstituível da identidade cultural local — um lugar onde a arte e a memória se encontram.`,
+    historia:`O Cine Teatro Coliseu foi inaugurado em meados do século XX e tornou-se rapidamente o centro cultural mais frequentado de Camaquã. Sua história espelha a vida cultural da cidade, registrando épocas de efervescência artística e as transformações sociais que o país viveu ao longo das décadas.`,
+    facts:[['Tipo','Cinema e Teatro histórico'],['Localização','Centro de Camaquã'],['Época','Meados do séc. XX'],['Destaque','Patrimônio cultural histórico']],
+    nearby:['Praça Zeca Netto','Igreja Matriz São João Batista','Café do Largo']
+  },
+  {
+    id:'barragem-arroio-duro',
+    name:'Barragem do Arroio Duro',
+    cat:'natural',
+    catLabel:'Infraestrutura & Natureza',
+    short:'Barragem que serve à cidade e oferece paisagem natural, pesca e lazer nos arredores de Camaquã.',
+    tagline:'Onde a engenharia encontra a natureza — paisagem e história juntas.',
+    gradient:'linear-gradient(135deg,#0a1a2a 0%,#1a3a5a 50%,#102840 100%)',
+    dist:'Arredores',
+    desc:`A Barragem do Arroio Duro é uma obra de infraestrutura que se tornou também um atrativo natural e de lazer para Camaquã. O espelho d'água formado pela barragem oferece paisagem serena, é utilizado para atividades de pesca e contemplação, e representa a relação da cidade com seus recursos hídricos.
+
+O local é frequentado por pescadores, famílias e amantes da natureza que buscam sair do ambiente urbano.`,
+    historia:`A construção da barragem foi parte do desenvolvimento da infraestrutura hídrica da região, garantindo recursos para a cidade e criando, como consequência, um lago artificial que com o tempo se tornou ponto de lazer e convivência.`,
+    facts:[['Tipo','Barragem e área de lazer'],['Localização','Arredores de Camaquã'],['Atividades','Pesca e contemplação'],['Acesso','Verificar condições']],
+    nearby:['Cascata Barbosa Lessa','Pedreira de Camaquã','Prainha de Camaquã']
+  },
+  {
+    id:'parque-bento-goncalves',
+    name:'Parque Histórico Bento Gonçalves',
+    cat:'historico',
+    catLabel:'Parque Histórico',
+    short:'Parque que homenageia o general farroupilha Bento Gonçalves, herói da Revolução Farroupilha.',
+    tagline:'A Revolução Farroupilha preservada — história gaúcha ao ar livre.',
+    gradient:'linear-gradient(135deg,#1a2a0a 0%,#3a5a1a 50%,#2a3a10 100%)',
+    dist:'Camaquã',
+    desc:`O Parque Histórico General Bento Gonçalves é um espaço de memória e homenagem ao célebre general farroupilha que foi um dos maiores símbolos da Revolução Farroupilha (1835-1845). O parque integra história, natureza e educação, tornando-se um importante ponto de visitação para quem quer conhecer a história do Rio Grande do Sul.
+
+Com monumentos, área verde e espaços educativos, o parque conecta visitantes à história farroupilha que tanto influenciou a identidade gaúcha.`,
+    historia:`Bento Gonçalves foi um dos principais líderes da Revolução Farroupilha, conflito que marcou profundamente a história do Rio Grande do Sul. A ligação de sua memória com a região de Camaquã justifica a criação de um parque em sua homenagem, preservando esse legado para as gerações futuras.`,
+    facts:[['Tipo','Parque histórico'],['Homenageado','General Bento Gonçalves'],['Período histórico','Revolução Farroupilha (1835-1845)'],['Acesso','Gratuito']],
+    nearby:['CTG Camaquã','Cascata Barbosa Lessa','Pedreira de Camaquã']
+  }
+];
+
+const CAT_COLORS = {
+  praça:'#4A7C3F',natural:'#2E7D6E',cultural:'#A0522D',religioso:'#8B6914',historico:'#8B2020',lazer:'#6040A0'
+};
+
+// ── NAVIGATION ──
+let currentPage = 'home';
+
+function goPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === page);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+  currentPage = page;
+  if(page === 'pontos') renderAllPontos();
+  if(page === 'mapa') renderMapaList();
+}
+
+function goDetail(id) {
+  const p = PONTOS.find(x => x.id === id);
+  if(!p) return;
+
+  document.getElementById('detail-hero-bg').style.background = p.gradient;
+  document.getElementById('detail-cat-crumb').textContent = p.catLabel;
+  document.getElementById('detail-cat-badge').textContent = p.catLabel;
+  document.getElementById('detail-cat-badge').className = 'detail-cat';
+  document.getElementById('detail-cat-badge').style.cssText = `background:${CAT_COLORS[p.cat]}33;color:${CAT_COLORS[p.cat]};border:1px solid ${CAT_COLORS[p.cat]}66;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .8rem;border-radius:2px;display:inline-block;`;
+  document.getElementById('detail-title').textContent = p.name;
+  document.getElementById('detail-tagline').textContent = p.tagline;
+
+  const nearbyHTML = p.nearby.map(n => {
+    const np = PONTOS.find(x => x.name === n);
+    const id = np ? np.id : null;
+    return `<div class="nearby-item" ${id ? `onclick="goDetail('${id}')"` : ''}>
+      <span class="nearby-ico">📍</span>
+      <span class="nearby-name">${n}</span>
+      <span class="nearby-dist">próximo</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('detail-main').innerHTML = `
+    <div class="detail-section-title">Sobre o local</div>
+    ${p.desc.split('\n\n').map(par => par.trim() ? `<p class="detail-text">${par.trim()}</p>` : '').join('')}
+    <div class="detail-section-title">História</div>
+    <p class="detail-text">${p.historia}</p>
+    <div class="ar-teaser">
+      <div class="ar-ico">📱</div>
+      <div>
+        <div class="ar-txt-title">Realidade Aumentada · Em breve</div>
+        <div class="ar-txt-desc">Em breve você poderá apontar a câmera do seu celular para este local e ver informações históricas, fotos antigas e reconstruções digitais sobrepostas à realidade.</div>
+        <span class="ar-badge-pill" style="cursor:pointer" onclick="openAR()">📱 Abrir AR agora</span>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('detail-sidebar').innerHTML = `
+    <div class="detail-facts">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem">Informações</div>
+      ${p.facts.map(([k,v]) => `<div class="detail-fact"><span class="fact-key">${k}</span><span class="fact-val">${v}</span></div>`).join('')}
+    </div>
+    <div class="detail-nearby">
+      <div class="nearby-title">📍 Pontos próximos</div>
+      ${nearbyHTML}
+    </div>
+    <div style="margin-top:1.5rem">
+      <button class="btn btn-gold" style="width:100%;justify-content:center" onclick="goPage('mapa')">🗺 Ver no mapa</button>
+    </div>
+    <div style="margin-top:.8rem">
+      <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="goPage('gastronomia')">🍽 Ver restaurantes próximos</button>
+    </div>
+  `;
+
+  goPage('detail');
+}
+
+// ── RENDER ALL PONTOS ──
+function renderAllPontos(filter='todos') {
+  const grid = document.getElementById('all-pontos-grid');
+  const filtered = filter === 'todos' ? PONTOS : PONTOS.filter(p => p.cat === filter);
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="ponto-card" onclick="goDetail('${p.id}')">
+      <div class="ponto-thumb">
+        <div class="ponto-thumb-bg" style="background:${p.gradient}"></div>
+        <div class="ponto-thumb-overlay"></div>
+        <span class="ponto-cat-badge cat-${p.cat}">${p.catLabel}</span>
+      </div>
+      <div class="ponto-body">
+        <div class="ponto-name">${p.name}</div>
+        <p class="ponto-short">${p.short}</p>
+        <div class="ponto-footer">
+          <span class="ponto-dist">📍 ${p.dist}</span>
+          <button class="ponto-cta">Ver mais →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterPontos(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAllPontos(cat);
+}
+
+// ── MAPA LIST ──
+function renderMapaList() {
+  const list = document.getElementById('mapa-list-items');
+  const colors = Object.values({'praça':'#4A7C3F',natural:'#2E7D6E',cultural:'#A0522D',religioso:'#C8A84B',historico:'#A02020',lazer:'#6040A0'});
+  list.innerHTML = PONTOS.map((p,i) => `
+    <div class="mapa-list-item" onclick="highlightMapa(${i})">
+      <div class="mapa-list-dot" style="background:${CAT_COLORS[p.cat]}"></div>
+      <div>
+        <div class="mapa-list-name">${p.name}</div>
+        <div class="mapa-list-cat">${p.catLabel}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function highlightMapa(idx) {
+  document.querySelectorAll('.mapa-list-item').forEach((el,i) => {
+    el.classList.toggle('active', i === idx);
+  });
+}
+
+// ── FORM ──
+function submitForm() {
+  const btn = event.target;
+  btn.textContent = '✓ Mensagem enviada!';
+  btn.style.background = 'var(--green2)';
+  setTimeout(() => { btn.textContent = 'Enviar mensagem ✓'; btn.style.background = ''; }, 3000);
+}
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  const links = document.getElementById('nav-links');
+  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  links.style.flexDirection = 'column';
+  links.style.position = 'absolute';
+  links.style.top = '72px';
+  links.style.left = '0';
+  links.style.right = '0';
+  links.style.background = 'rgba(13,15,10,.98)';
+  links.style.padding = '1.5rem';
+  links.style.gap = '1.5rem';
+  links.style.borderBottom = '1px solid var(--border)';
+  links.style.zIndex = '499';
+}
+
+// ── INIT ──
+renderAllPontos();
+
+// scroll fade-in
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// CSS animation
+const style = document.createElement('style');
+style.textContent = `@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }`;
+document.head.appendChild(style);
+
+/* ═══════════════════════════════════════════
+   PARTICLES SYSTEM — floating in space
+═══════════════════════════════════════════ */
+(function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = {x:0,y:0};
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+  // Create particles
+  const COLORS = ['rgba(200,168,75,', 'rgba(74,124,63,', 'rgba(240,232,204,', 'rgba(46,125,110,'];
+  for(let i=0; i<90; i++) {
+    particles.push({
+      x: Math.random() * 1920,
+      y: Math.random() * 1080,
+      r: Math.random() * 1.8 + .3,
+      vx: (Math.random()-.5) * .35,
+      vy: (Math.random()-.5) * .35,
+      color: COLORS[Math.floor(Math.random()*COLORS.length)],
+      alpha: Math.random() * .5 + .1,
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: Math.random() * .02 + .005,
+      depth: Math.random() * .8 + .2 // parallax depth
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+
+    // scroll offset for parallax
+    const scrollY = window.scrollY * .04;
+
+    particles.forEach(p => {
+      // Parallax drift with mouse + scroll
+      const mx = (mouse.x / W - .5) * 12 * p.depth;
+      const my = (mouse.y / H - .5) * 12 * p.depth;
+      const px = (p.x % W + mx + W) % W;
+      const py = (p.y % H + my - scrollY * p.depth + H) % H;
+
+      p.pulse += p.pulseSpeed;
+      const alphaPulse = p.alpha * (.7 + .3 * Math.sin(p.pulse));
+
+      // Connection lines
+      particles.forEach(p2 => {
+        const dx = px - ((p2.x % W + mx + W) % W);
+        const dy = py - ((p2.y % H + my - scrollY * p2.depth + H) % H);
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 100 && dist > 0) {
+          ctx.beginPath();
+          ctx.strokeStyle = p.color + (alphaPulse * (1 - dist/100) * .3) + ')';
+          ctx.lineWidth = .5;
+          ctx.moveTo(px, py);
+          ctx.lineTo((p2.x % W + mx + W) % W, (p2.y % H + my - scrollY * p2.depth + H) % H);
+          ctx.stroke();
+        }
+      });
+
+      // Particle dot
+      ctx.beginPath();
+      ctx.arc(px, py, p.r * (.8 + .4 * Math.sin(p.pulse)), 0, Math.PI*2);
+      ctx.fillStyle = p.color + alphaPulse + ')';
+      ctx.fill();
+
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < 0) p.x += W; if(p.x > W) p.x -= W;
+      if(p.y < 0) p.y += H; if(p.y > H) p.y -= H;
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════════════════════════════════════════
+   3D TILT PARALLAX — hero section
+═══════════════════════════════════════════ */
+(function init3DTilt() {
+  const hero = document.querySelector('.hero');
+  if(!hero) return;
+
+  // Add depth glows
+  const glow1 = document.createElement('div');
+  glow1.className = 'depth-glow';
+  glow1.style.cssText = 'width:400px;height:400px;background:radial-gradient(circle,rgba(200,168,75,.12),transparent 70%);top:10%;left:15%;animation-delay:0s;';
+  const glow2 = document.createElement('div');
+  glow2.className = 'depth-glow';
+  glow2.style.cssText = 'width:500px;height:500px;background:radial-gradient(circle,rgba(74,124,63,.1),transparent 70%);top:30%;right:10%;animation-delay:3s;';
+  hero.appendChild(glow1);
+  hero.appendChild(glow2);
+
+  // Add p3d classes for depth layers
+  const title = hero.querySelector('h1.hero-title');
+  const eyebrow = hero.querySelector('.hero-eyebrow');
+  const sub = hero.querySelector('.hero-sub');
+  const btns = hero.querySelector('.hero-btns');
+  const metrics = hero.querySelector('.hero-metrics');
+  const mapPrev = hero.querySelector('.hero-map-preview');
+  const floats = hero.querySelectorAll('.hero-float');
+
+  if(title) title.classList.add('p3d-deep');
+  if(eyebrow) eyebrow.classList.add('p3d-near');
+  if(sub) sub.classList.add('p3d-mid');
+  if(btns) btns.classList.add('p3d-mid');
+  if(metrics) metrics.classList.add('p3d-near');
+  if(mapPrev) mapPrev.classList.add('p3d-mid');
+  floats.forEach(f => f.classList.add('p3d-float'));
+
+  let targetRx = 0, targetRy = 0, currentRx = 0, currentRy = 0;
+  const heroLeft = hero.querySelector('.hero-left');
+  const heroRight = hero.querySelector('.hero-right');
+
+  document.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    if(e.clientY < rect.bottom + 200) {
+      const cx = rect.left + rect.width/2;
+      const cy = rect.top + rect.height/2;
+      targetRy = ((e.clientX - cx) / (rect.width/2)) * 5;
+      targetRx = -((e.clientY - cy) / (rect.height/2)) * 3;
+    }
+  });
+
+  document.addEventListener('mouseleave', () => { targetRx = 0; targetRy = 0; });
+
+  function animateTilt() {
+    currentRx += (targetRx - currentRx) * .06;
+    currentRy += (targetRy - currentRy) * .06;
+    if(heroLeft) heroLeft.style.transform = `perspective(1200px) rotateX(${currentRx*.6}deg) rotateY(${currentRy*.5}deg) translateZ(0)`;
+    if(heroRight) heroRight.style.transform = `perspective(1200px) rotateX(${currentRx*.4}deg) rotateY(${currentRy*.7}deg) translateZ(0)`;
+    requestAnimationFrame(animateTilt);
+  }
+  animateTilt();
+
+  // Add float-card-3d to ponto cards
+  document.querySelectorAll('.ponto-card, .value-card, .gastro-card, .city-card').forEach(c => {
+    c.classList.add('float-card-3d');
+  });
+})();
+
+/* ═══════════════════════════════════════════
+   AR MODULE — Realidade Aumentada
+═══════════════════════════════════════════ */
+let arStream = null;
+let arCurrentPOI = null;
+let arFilter = 'historico';
+let arAnimFrame = null;
+
+const AR_POIS = [
+  { id:'praca-zeca-netto',   name:'Praça Zeca Netto',            cat:'praça',    dist:'0m',   x:52, y:38, fact:'Coração cívico de Camaquã desde o séc. XIX' },
+  { id:'igreja-matriz',      name:'Igreja Matriz São João Batista', cat:'religioso', dist:'120m', x:72, y:30, fact:'Padroeiro: São João Batista · Séc. XIX' },
+  { id:'cine-teatro-coliseu',name:'Cine Teatro Coliseu',          cat:'historico', dist:'200m', x:30, y:45, fact:'O palco cultural que marcou gerações' },
+  { id:'sesc-camaqua',       name:'SESC Camaquã',                 cat:'cultural',  dist:'350m', x:60, y:55, fact:'Cultura, esporte e lazer para todos' },
+  { id:'prainha',            name:'Prainha de Camaquã',           cat:'natural',   dist:'800m', x:18, y:60, fact:'Beira-rio — lazer e natureza' },
+  { id:'ctg-camaqua',        name:'CTG Camaquã',                  cat:'cultural',  dist:'500m', x:82, y:48, fact:'Tradições gaúchas vivas' },
+  { id:'parque-bento-goncalves', name:'Parque Histórico Bento Gonçalves', cat:'historico', dist:'1.2km', x:45, y:25, fact:'Revolução Farroupilha · 1835-1845' },
+];
+
+function openAR() {
+  const arPage = document.getElementById('page-ar');
+  arPage.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAR() {
+  const arPage = document.getElementById('page-ar');
+  arPage.classList.remove('active');
+  document.body.style.overflow = '';
+  if(arStream) { arStream.getTracks().forEach(t => t.stop()); arStream = null; }
+  if(arAnimFrame) { cancelAnimationFrame(arAnimFrame); arAnimFrame = null; }
+  document.getElementById('ar-hud').style.display = 'none';
+  document.getElementById('ar-permission').style.display = 'flex';
+  document.getElementById('ar-bottom-controls').style.display = 'none';
+  closeARPanel();
+}
+
+async function startAR() {
+  try {
+    arStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode:'environment', width:{ideal:1920}, height:{ideal:1080} }
+    });
+    const video = document.getElementById('ar-video');
+    video.srcObject = arStream;
+    await video.play();
+    launchARHUD(false);
+  } catch(err) {
+    // Fallback to demo if camera denied
+    startARDemo();
+  }
+}
+
+function startARDemo() {
+  const video = document.getElementById('ar-video');
+  // Show a dark animated background as "camera"
+  video.style.background = 'linear-gradient(135deg, #0a120a 0%, #0e180e 50%, #080e10 100%)';
+  document.getElementById('ar-demo-label').style.display = 'block';
+  launchARHUD(true);
+}
+
+function launchARHUD(isDemo) {
+  document.getElementById('ar-permission').style.display = 'none';
+  document.getElementById('ar-hud').style.display = 'block';
+  document.getElementById('ar-bottom-controls').style.display = 'block';
+
+  const statusEl = document.getElementById('ar-status');
+  statusEl.textContent = 'Escaneando...';
+
+  // Simulate detection after 2s
+  setTimeout(() => {
+    statusEl.textContent = isDemo ? 'Demo · 7 pontos' : '7 pontos detectados';
+    renderARPOIs();
+  }, 2000);
+
+  // Animate POIs drifting
+  animateARPOIs();
+}
+
+function renderARPOIs() {
+  const container = document.getElementById('ar-pois');
+  const filtered = arFilter === 'todos' ? AR_POIS : AR_POIS.filter(p => p.cat === arFilter || p.cat === 'praça');
+  const catColor = { praça:'#4A7C3F', natural:'#2E7D6E', cultural:'#A0522D', religioso:'#C8A84B', historico:'#C8A84B', lazer:'#6040A0' };
+
+  container.innerHTML = filtered.map((p,i) => `
+    <div class="ar-poi" id="ar-poi-${p.id}"
+      style="left:${p.x}%;top:${p.y}%;animation-delay:${i*.3}s;"
+      onclick="openARPanel('${p.id}')">
+      <div class="ar-poi-card">
+        <div class="ar-poi-dist" style="color:${catColor[p.cat] || '#C8A84B'}">📍 ${p.dist}</div>
+        <div class="ar-poi-name">${p.name}</div>
+        <div class="ar-poi-fact">${p.fact}</div>
+      </div>
+      <div class="ar-poi-line"></div>
+      <div class="ar-poi-pin" style="background:${catColor[p.cat] || '#C8A84B'}"></div>
+    </div>
+  `).join('');
+}
+
+function animateARPOIs() {
+  // Subtle drift on POIs
+  let t = 0;
+  function tick() {
+    t += .008;
+    AR_POIS.forEach((p, i) => {
+      const el = document.getElementById('ar-poi-'+p.id);
+      if(el) {
+        const driftX = Math.sin(t + i * 1.2) * 1.5;
+        const driftY = Math.cos(t + i * .8) * 1;
+        el.style.left = (p.x + driftX) + '%';
+        el.style.top  = (p.y + driftY) + '%';
+      }
+    });
+    arAnimFrame = requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+function setARFilter(filter, btn) {
+  arFilter = filter;
+  document.querySelectorAll('.ar-ctrl-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderARPOIs();
+}
+
+function openARPanel(id) {
+  arCurrentPOI = id;
+  const p = PONTOS.find(x => x.id === id);
+  if(!p) return;
+
+  document.getElementById('ar-panel-content').innerHTML = `
+    <div class="ar-panel-cat">${p.catLabel}</div>
+    <div class="ar-panel-title">${p.name}</div>
+    <p class="ar-panel-desc">${p.desc.split('\n\n')[0]}</p>
+    <div class="ar-panel-facts">
+      ${p.facts.map(([k,v]) => `
+        <div class="ar-panel-fact">
+          <div class="ar-panel-fact-key">${k}</div>
+          <div class="ar-panel-fact-val">${v}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  document.getElementById('ar-detail-panel').classList.add('open');
+}
+
+function closeARPanel() {
+  document.getElementById('ar-detail-panel').classList.remove('open');
+}
+
+function goDetailFromAR() {
+  if(!arCurrentPOI) return;
+  closeAR();
+  goDetail(arCurrentPOI);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL DEPTH ATMOSPHERE — section depth
+═══════════════════════════════════════════ */
+(function initScrollAtmosphere() {
+  const deco = document.createElement('div');
+  deco.style.cssText = `
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:radial-gradient(ellipse 80% 60% at 50% -20%, rgba(200,168,75,.04) 0%, transparent 60%);
+    transition:opacity .5s;
+  `;
+  document.body.prepend(deco);
+
+  window.addEventListener('scroll', () => {
+    const scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    const hue = 160 + scrollPct * 40;
+    deco.style.background = `radial-gradient(ellipse 80% 60% at ${30 + scrollPct*40}% ${-20 + scrollPct*60}%, rgba(${74+scrollPct*60},${124-scrollPct*30},${63+scrollPct*20},.05) 0%, transparent 60%)`;
+  });
+})();
+</script>
+</body>
+</html>
