@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "LocalRoots API",
-    "description": "API documentation for the **LocalRoots** application.\n\n**Authentication:** Most endpoints require the `api_key` header. If using Swagger UI, click the **Authorize** button at the top of the page and enter your API key before trying any endpoint.",
+    "description": "API documentation for the **LocalRoots** application.\n\n**Authentication:** Most endpoints require the `api_key` header. If using Swagger UI, click the **Authorize** button at the top.",
     "version": "1.0.0"
   },
   "servers": [
@@ -19,9 +19,7 @@
   "paths": {
     "/entities/Place": {
       "get": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "List Place records",
         "operationId": "list_Place",
         "description": "Retrieve a list of Place records with optional filtering, sorting, and pagination.",
@@ -29,35 +27,25 @@
           {
             "name": "q",
             "in": "query",
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "JSON query filter, e.g. {\"status\":\"active\"}"
           },
           {
             "name": "limit",
             "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 100
-            },
+            "schema": {"type": "integer", "default": 100},
             "description": "Maximum number of records to return"
           },
           {
             "name": "skip",
             "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 0
-            },
+            "schema": {"type": "integer", "default": 0},
             "description": "Number of records to skip (pagination)"
           },
           {
             "name": "sort_by",
             "in": "query",
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Field name to sort by. Prefix with '-' for descending order, e.g. -created_date"
           }
         ],
@@ -68,9 +56,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Place"
-                  }
+                  "items": {"$ref": "#/components/schemas/Place"}
                 }
               }
             }
@@ -78,21 +64,19 @@
         }
       },
       "post": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Create a Place record",
         "operationId": "create_Place",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Place"
-              },
+              "schema": {"$ref": "#/components/schemas/Place"},
               "example": {
-                "name": "Example name",
-                "category": "historical"
+                "name": "Historic Downtown",
+                "category": "historical",
+                "location": "Downtown Center",
+                "description": "A historic area in the city center"
               }
             }
           }
@@ -102,18 +86,14 @@
             "description": "Created record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Place"
-                }
+                "schema": {"$ref": "#/components/schemas/Place"}
               }
             }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Delete multiple Place records",
         "operationId": "delete_many_Place",
         "description": "**Warning:** Passing an empty `{}` query will delete ALL records in this entity.",
@@ -125,9 +105,7 @@
                 "type": "object",
                 "description": "Query filter to match records to delete"
               },
-              "example": {
-                "name": "Example name"
-              }
+              "example": {"name": "Historic Downtown"}
             }
           }
         },
@@ -139,12 +117,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "deleted": {
-                      "type": "integer"
-                    }
+                    "success": {"type": "boolean"},
+                    "deleted": {"type": "integer"}
                   }
                 }
               }
@@ -155,9 +129,7 @@
     },
     "/entities/Place/bulk": {
       "post": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Bulk create Place records",
         "operationId": "bulk_create_Place",
         "requestBody": {
@@ -166,14 +138,13 @@
             "application/json": {
               "schema": {
                 "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Place"
-                }
+                "items": {"$ref": "#/components/schemas/Place"}
               },
               "example": [
                 {
-                  "name": "Example name",
-                  "category": "historical"
+                  "name": "Historic Downtown",
+                  "category": "historical",
+                  "location": "Downtown Center"
                 }
               ]
             }
@@ -186,9 +157,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Place"
-                  }
+                  "items": {"$ref": "#/components/schemas/Place"}
                 }
               }
             }
@@ -196,9 +165,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Bulk update Place records",
         "operationId": "bulk_update_Place",
         "description": "Each item must include an 'id' field along with the fields to update.",
@@ -208,14 +175,12 @@
             "application/json": {
               "schema": {
                 "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Place"
-                }
+                "items": {"$ref": "#/components/schemas/Place"}
               },
               "example": [
                 {
-                  "id": "<record_id>",
-                  "name": "Example name",
+                  "id": "507f1f77bcf86cd799439011",
+                  "name": "Updated Name",
                   "category": "historical"
                 }
               ]
@@ -229,9 +194,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Place"
-                  }
+                  "items": {"$ref": "#/components/schemas/Place"}
                 }
               }
             }
@@ -241,9 +204,7 @@
     },
     "/entities/Place/update-many": {
       "patch": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Update many Place records by query",
         "operationId": "update_many_Place",
         "description": "Update multiple records matching a query filter. Supports MongoDB update operators ($set, $inc, $push, $pull).",
@@ -253,10 +214,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "query",
-                  "data"
-                ],
+                "required": ["query", "data"],
                 "properties": {
                   "query": {
                     "type": "object",
@@ -269,14 +227,8 @@
                 }
               },
               "example": {
-                "query": {
-                  "name": "Example name"
-                },
-                "data": {
-                  "$set": {
-                    "name": "Example name"
-                  }
-                }
+                "query": {"category": "historical"},
+                "data": {"$set": {"category": "heritage"}}
               }
             }
           }
@@ -289,15 +241,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "updated": {
-                      "type": "integer"
-                    },
-                    "has_more": {
-                      "type": "boolean"
-                    }
+                    "success": {"type": "boolean"},
+                    "updated": {"type": "integer"},
+                    "has_more": {"type": "boolean"}
                   }
                 }
               }
@@ -308,9 +254,7 @@
     },
     "/entities/Place/{Place_id}": {
       "get": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Get a Place record by ID",
         "operationId": "get_Place",
         "parameters": [
@@ -318,9 +262,7 @@
             "name": "Place_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -329,18 +271,14 @@
             "description": "The record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Place"
-                }
+                "schema": {"$ref": "#/components/schemas/Place"}
               }
             }
           }
         }
       },
       "put": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Update a Place record",
         "operationId": "update_Place",
         "parameters": [
@@ -348,9 +286,7 @@
             "name": "Place_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -358,9 +294,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Place"
-              }
+              "schema": {"$ref": "#/components/schemas/Place"}
             }
           }
         },
@@ -369,18 +303,14 @@
             "description": "Updated record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Place"
-                }
+                "schema": {"$ref": "#/components/schemas/Place"}
               }
             }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Delete a Place record",
         "operationId": "delete_Place",
         "description": "Soft-deletes the record. Use the restore endpoint to undo.",
@@ -389,9 +319,7 @@
             "name": "Place_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -402,11 +330,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
+                  "properties": {"success": {"type": "boolean"}}
                 }
               }
             }
@@ -416,9 +340,7 @@
     },
     "/entities/Place/{Place_id}/restore": {
       "put": {
-        "tags": [
-          "Entities - Place"
-        ],
+        "tags": ["Entities - Place"],
         "summary": "Restore a deleted Place record",
         "operationId": "restore_Place",
         "parameters": [
@@ -426,9 +348,7 @@
             "name": "Place_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -437,9 +357,7 @@
             "description": "Restored record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Place"
-                }
+                "schema": {"$ref": "#/components/schemas/Place"}
               }
             }
           }
@@ -448,9 +366,7 @@
     },
     "/entities/FeedbackResponse": {
       "get": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "List FeedbackResponse records",
         "operationId": "list_FeedbackResponse",
         "description": "Retrieve a list of FeedbackResponse records with optional filtering, sorting, and pagination.",
@@ -458,36 +374,26 @@
           {
             "name": "q",
             "in": "query",
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "JSON query filter, e.g. {\"status\":\"active\"}"
           },
           {
             "name": "limit",
             "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 100
-            },
+            "schema": {"type": "integer", "default": 100},
             "description": "Maximum number of records to return"
           },
           {
             "name": "skip",
             "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 0
-            },
+            "schema": {"type": "integer", "default": 0},
             "description": "Number of records to skip (pagination)"
           },
           {
             "name": "sort_by",
             "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Field name to sort by. Prefix with '-' for descending order, e.g. -created_date"
+            "schema": {"type": "string"},
+            "description": "Field name to sort by. Prefix with '-' for descending order"
           }
         ],
         "responses": {
@@ -497,9 +403,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FeedbackResponse"
-                  }
+                  "items": {"$ref": "#/components/schemas/FeedbackResponse"}
                 }
               }
             }
@@ -507,20 +411,18 @@
         }
       },
       "post": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Create a FeedbackResponse record",
         "operationId": "create_FeedbackResponse",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FeedbackResponse"
-              },
+              "schema": {"$ref": "#/components/schemas/FeedbackResponse"},
               "example": {
-                "tester_name": "Example tester_name"
+                "tester_name": "John Doe",
+                "rating": 5,
+                "comments": "Great application!"
               }
             }
           }
@@ -530,18 +432,14 @@
             "description": "Created record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackResponse"
-                }
+                "schema": {"$ref": "#/components/schemas/FeedbackResponse"}
               }
             }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Delete multiple FeedbackResponse records",
         "operationId": "delete_many_FeedbackResponse",
         "description": "**Warning:** Passing an empty `{}` query will delete ALL records in this entity.",
@@ -553,9 +451,7 @@
                 "type": "object",
                 "description": "Query filter to match records to delete"
               },
-              "example": {
-                "tester_name": "Example tester_name"
-              }
+              "example": {"tester_name": "John Doe"}
             }
           }
         },
@@ -567,12 +463,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "deleted": {
-                      "type": "integer"
-                    }
+                    "success": {"type": "boolean"},
+                    "deleted": {"type": "integer"}
                   }
                 }
               }
@@ -583,9 +475,7 @@
     },
     "/entities/FeedbackResponse/bulk": {
       "post": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Bulk create FeedbackResponse records",
         "operationId": "bulk_create_FeedbackResponse",
         "requestBody": {
@@ -594,13 +484,12 @@
             "application/json": {
               "schema": {
                 "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/FeedbackResponse"
-                }
+                "items": {"$ref": "#/components/schemas/FeedbackResponse"}
               },
               "example": [
                 {
-                  "tester_name": "Example tester_name"
+                  "tester_name": "John Doe",
+                  "rating": 5
                 }
               ]
             }
@@ -613,9 +502,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FeedbackResponse"
-                  }
+                  "items": {"$ref": "#/components/schemas/FeedbackResponse"}
                 }
               }
             }
@@ -623,9 +510,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Bulk update FeedbackResponse records",
         "operationId": "bulk_update_FeedbackResponse",
         "description": "Each item must include an 'id' field along with the fields to update.",
@@ -635,14 +520,12 @@
             "application/json": {
               "schema": {
                 "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/FeedbackResponse"
-                }
+                "items": {"$ref": "#/components/schemas/FeedbackResponse"}
               },
               "example": [
                 {
-                  "id": "<record_id>",
-                  "tester_name": "Example tester_name"
+                  "id": "507f1f77bcf86cd799439011",
+                  "tester_name": "Jane Doe"
                 }
               ]
             }
@@ -655,9 +538,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FeedbackResponse"
-                  }
+                  "items": {"$ref": "#/components/schemas/FeedbackResponse"}
                 }
               }
             }
@@ -667,22 +548,17 @@
     },
     "/entities/FeedbackResponse/update-many": {
       "patch": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Update many FeedbackResponse records by query",
         "operationId": "update_many_FeedbackResponse",
-        "description": "Update multiple records matching a query filter. Supports MongoDB update operators ($set, $inc, $push, $pull).",
+        "description": "Update multiple records matching a query filter.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "query",
-                  "data"
-                ],
+                "required": ["query", "data"],
                 "properties": {
                   "query": {
                     "type": "object",
@@ -695,14 +571,8 @@
                 }
               },
               "example": {
-                "query": {
-                  "tester_name": "Example tester_name"
-                },
-                "data": {
-                  "$set": {
-                    "tester_name": "Example tester_name"
-                  }
-                }
+                "query": {"rating": {"$lt": 3}},
+                "data": {"$set": {"status": "needs_review"}}
               }
             }
           }
@@ -715,15 +585,9 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "updated": {
-                      "type": "integer"
-                    },
-                    "has_more": {
-                      "type": "boolean"
-                    }
+                    "success": {"type": "boolean"},
+                    "updated": {"type": "integer"},
+                    "has_more": {"type": "boolean"}
                   }
                 }
               }
@@ -734,9 +598,7 @@
     },
     "/entities/FeedbackResponse/{FeedbackResponse_id}": {
       "get": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Get a FeedbackResponse record by ID",
         "operationId": "get_FeedbackResponse",
         "parameters": [
@@ -744,9 +606,7 @@
             "name": "FeedbackResponse_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -755,18 +615,14 @@
             "description": "The record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackResponse"
-                }
+                "schema": {"$ref": "#/components/schemas/FeedbackResponse"}
               }
             }
           }
         }
       },
       "put": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Update a FeedbackResponse record",
         "operationId": "update_FeedbackResponse",
         "parameters": [
@@ -774,9 +630,7 @@
             "name": "FeedbackResponse_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -784,9 +638,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FeedbackResponse"
-              }
+              "schema": {"$ref": "#/components/schemas/FeedbackResponse"}
             }
           }
         },
@@ -795,18 +647,14 @@
             "description": "Updated record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackResponse"
-                }
+                "schema": {"$ref": "#/components/schemas/FeedbackResponse"}
               }
             }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Delete a FeedbackResponse record",
         "operationId": "delete_FeedbackResponse",
         "description": "Soft-deletes the record. Use the restore endpoint to undo.",
@@ -815,9 +663,7 @@
             "name": "FeedbackResponse_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -828,11 +674,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
+                  "properties": {"success": {"type": "boolean"}}
                 }
               }
             }
@@ -842,9 +684,7 @@
     },
     "/entities/FeedbackResponse/{FeedbackResponse_id}/restore": {
       "put": {
-        "tags": [
-          "Entities - FeedbackResponse"
-        ],
+        "tags": ["Entities - FeedbackResponse"],
         "summary": "Restore a deleted FeedbackResponse record",
         "operationId": "restore_FeedbackResponse",
         "parameters": [
@@ -852,9 +692,7 @@
             "name": "FeedbackResponse_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -863,9 +701,7 @@
             "description": "Restored record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackResponse"
-                }
+                "schema": {"$ref": "#/components/schemas/FeedbackResponse"}
               }
             }
           }
@@ -874,9 +710,7 @@
     },
     "/entities/User": {
       "get": {
-        "tags": [
-          "Entities - User"
-        ],
+        "tags": ["Entities - User"],
         "summary": "List User records",
         "operationId": "list_User",
         "description": "Retrieve a list of User records with optional filtering, sorting, and pagination.",
@@ -884,36 +718,26 @@
           {
             "name": "q",
             "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "description": "JSON query filter, e.g. {\"status\":\"active\"}"
+            "schema": {"type": "string"},
+            "description": "JSON query filter, e.g. {\"role\":\"admin\"}"
           },
           {
             "name": "limit",
             "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 100
-            },
+            "schema": {"type": "integer", "default": 100},
             "description": "Maximum number of records to return"
           },
           {
             "name": "skip",
             "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 0
-            },
+            "schema": {"type": "integer", "default": 0},
             "description": "Number of records to skip (pagination)"
           },
           {
             "name": "sort_by",
             "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Field name to sort by. Prefix with '-' for descending order, e.g. -created_date"
+            "schema": {"type": "string"},
+            "description": "Field name to sort by"
           }
         ],
         "responses": {
@@ -923,9 +747,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
-                  }
+                  "items": {"$ref": "#/components/schemas/User"}
                 }
               }
             }
@@ -933,22 +755,18 @@
         }
       },
       "post": {
-        "tags": [
-          "Entities - User"
-        ],
+        "tags": ["Entities - User"],
         "summary": "Create a User record",
         "operationId": "create_User",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              },
+              "schema": {"$ref": "#/components/schemas/User"},
               "example": {
-                "email": "Example email",
-                "full_name": "Example full_name",
-                "role": "admin"
+                "email": "john@example.com",
+                "full_name": "John Doe",
+                "role": "user"
               }
             }
           }
@@ -958,8 +776,165 @@
             "description": "Created record",
             "content": {
               "application/json": {
+                "schema": {"$ref": "#/components/schemas/User"}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Entities - User"],
+        "summary": "Delete multiple User records",
+        "operationId": "delete_many_User",
+        "description": "**Warning:** Passing an empty `{}` query will delete ALL records in this entity.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Query filter to match records to delete"
+              },
+              "example": {"role": "inactive"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Deletion result",
+            "content": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"},
+                    "deleted": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entities/User/bulk": {
+      "post": {
+        "tags": ["Entities - User"],
+        "summary": "Bulk create User records",
+        "operationId": "bulk_create_User",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/User"}
+              },
+              "example": [
+                {
+                  "email": "user@example.com",
+                  "full_name": "New User",
+                  "role": "user"
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of created records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/User"}
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Entities - User"],
+        "summary": "Bulk update User records",
+        "operationId": "bulk_update_User",
+        "description": "Each item must include an 'id' field along with the fields to update.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {"$ref": "#/components/schemas/User"}
+              },
+              "example": [
+                {
+                  "id": "507f1f77bcf86cd799439011",
+                  "full_name": "Updated Name",
+                  "role": "admin"
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of updated records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/User"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entities/User/update-many": {
+      "patch": {
+        "tags": ["Entities - User"],
+        "summary": "Update many User records by query",
+        "operationId": "update_many_User",
+        "description": "Update multiple records matching a query filter.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query", "data"],
+                "properties": {
+                  "query": {
+                    "type": "object",
+                    "description": "Query filter to match records"
+                  },
+                  "data": {
+                    "type": "object",
+                    "description": "Update operations to apply"
+                  }
+                }
+              },
+              "example": {
+                "query": {"role": "user"},
+                "data": {"$set": {"role": "moderator"}}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"},
+                    "updated": {"type": "integer"},
+                    "has_more": {"type": "boolean"}
+                  }
                 }
               }
             }
@@ -969,9 +944,7 @@
     },
     "/entities/User/{User_id}": {
       "get": {
-        "tags": [
-          "Entities - User"
-        ],
+        "tags": ["Entities - User"],
         "summary": "Get a User record by ID",
         "operationId": "get_User",
         "parameters": [
@@ -979,9 +952,7 @@
             "name": "User_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -990,18 +961,14 @@
             "description": "The record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
+                "schema": {"$ref": "#/components/schemas/User"}
               }
             }
           }
         }
       },
       "put": {
-        "tags": [
-          "Entities - User"
-        ],
+        "tags": ["Entities - User"],
         "summary": "Update a User record",
         "operationId": "update_User",
         "parameters": [
@@ -1009,9 +976,7 @@
             "name": "User_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -1019,9 +984,7 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
+              "schema": {"$ref": "#/components/schemas/User"}
             }
           }
         },
@@ -1030,18 +993,14 @@
             "description": "Updated record",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
+                "schema": {"$ref": "#/components/schemas/User"}
               }
             }
           }
         }
       },
       "delete": {
-        "tags": [
-          "Entities - User"
-        ],
+        "tags": ["Entities - User"],
         "summary": "Delete a User record",
         "operationId": "delete_User",
         "description": "Soft-deletes the record. Use the restore endpoint to undo.",
@@ -1050,9 +1009,7 @@
             "name": "User_id",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": {"type": "string"},
             "description": "Record ID"
           }
         ],
@@ -1063,12 +1020,34 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  }
+                  "properties": {"success": {"type": "boolean"}}
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entities/User/{User_id}/restore": {
+      "put": {
+        "tags": ["Entities - User"],
+        "summary": "Restore a deleted User record",
+        "operationId": "restore_User",
+        "parameters": [
+          {
+            "name": "User_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Record ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restored record",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/User"}
               }
             }
           }
@@ -1081,57 +1060,34 @@
       "ApiKeyAuth": {
         "type": "apiKey",
         "in": "header",
-        "name": "api_key",
-        "description": "Your API key. Obtain it from your user profile or via `User.me()` in the app SDK."
+        "name": "api_key"
       }
     },
     "schemas": {
       "Place": {
         "type": "object",
+        "required": ["name"],
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier"
+          },
           "name": {
             "type": "string",
             "description": "Name of the place"
           },
-          "description": {
-            "type": "string",
-            "description": "Short description for card display"
-          },
-          "history": {
-            "type": "string",
-            "description": "Detailed history/description in HTML format"
-          },
           "category": {
             "type": "string",
-            "enum": [
-              "historical",
-              "nature",
-              "cultural",
-              "religious",
-              "gastronomic",
-              "entertainment",
-              "accommodation",
-              "other"
-            ],
-            "description": "Main category of the place"
+            "enum": ["historical", "cultural", "natural", "commercial", "residential"],
+            "description": "Category of the place"
           },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Tags for the place"
-          },
-          "cover_photo": {
+          "location": {
             "type": "string",
-            "description": "URL of the cover photo"
+            "description": "Geographic location"
           },
-          "photos": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "URLs of additional photos"
+          "description": {
+            "type": "string",
+            "description": "Detailed description"
           },
           "latitude": {
             "type": "number",
@@ -1141,150 +1097,95 @@
             "type": "number",
             "description": "Longitude coordinate"
           },
-          "published": {
-            "type": "boolean",
-            "description": "Whether the place is visible on the public site",
-            "default": true
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique record identifier"
-          },
-          "created_date": {
+          "created_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Record creation timestamp"
+            "description": "Creation timestamp"
           },
-          "updated_date": {
+          "updated_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Record last update timestamp"
-          },
-          "created_by": {
-            "type": "string",
-            "description": "Email of the user who created the record"
+            "description": "Last update timestamp"
           }
-        },
-        "required": [
-          "name",
-          "category"
-        ],
-        "description": "Place entity"
+        }
       },
       "FeedbackResponse": {
         "type": "object",
+        "required": ["tester_name"],
         "properties": {
-          "tester_name": {
-            "type": "string",
-            "description": "Nome do testador"
-          },
-          "q1_navegacao": {
-            "type": "number",
-            "description": "Nota de 1 a 5 para facilidade de navegação"
-          },
-          "q2_conteudo": {
-            "type": "number",
-            "description": "Nota de 1 a 5 para qualidade do conteúdo"
-          },
-          "q3_design": {
-            "type": "number",
-            "description": "Nota de 1 a 5 para o design visual"
-          },
-          "q4_utilidade": {
-            "type": "number",
-            "description": "Nota de 1 a 5 para utilidade das informações"
-          },
-          "q5_comentario": {
-            "type": "string",
-            "description": "Comentário livre sobre o site"
-          },
-          "session_duration_minutes": {
-            "type": "number",
-            "description": "Tempo de sessão em minutos"
-          },
           "id": {
             "type": "string",
-            "description": "Unique record identifier"
+            "description": "Unique identifier"
           },
-          "created_date": {
+          "tester_name": {
+            "type": "string",
+            "description": "Name of the tester"
+          },
+          "rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Rating from 1 to 5"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Feedback comments"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Tester email address"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["new", "reviewed", "resolved"],
+            "description": "Status of feedback"
+          },
+          "created_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Record creation timestamp"
-          },
-          "updated_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Record last update timestamp"
-          },
-          "created_by": {
-            "type": "string",
-            "description": "Email of the user who created the record"
+            "description": "Creation timestamp"
           }
-        },
-        "required": [
-          "tester_name"
-        ],
-        "description": "FeedbackResponse entity"
+        }
       },
       "User": {
         "type": "object",
+        "required": ["email", "full_name", "role"],
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier"
+          },
           "email": {
             "type": "string",
-            "description": "The email of the user"
+            "format": "email",
+            "description": "User email address"
           },
           "full_name": {
             "type": "string",
-            "description": "The full name of the user"
+            "description": "Full name of the user"
           },
           "role": {
             "type": "string",
-            "enum": [
-              "admin",
-              "user"
-            ],
-            "description": "The role of the user in the app"
+            "enum": ["admin", "moderator", "user"],
+            "description": "User role"
           },
-          "id": {
-            "type": "string",
-            "description": "Unique record identifier"
+          "is_active": {
+            "type": "boolean",
+            "description": "Whether the user is active"
           },
-          "created_date": {
+          "created_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Record creation timestamp"
+            "description": "Creation timestamp"
           },
-          "updated_date": {
+          "updated_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Record last update timestamp"
-          },
-          "created_by": {
-            "type": "string",
-            "description": "Email of the user who created the record"
+            "description": "Last update timestamp"
           }
-        },
-        "required": [
-          "full_name",
-          "email",
-          "role"
-        ],
-        "description": "User entity"
+        }
       }
     }
-  },
-  "tags": [
-    {
-      "name": "Entities - Place",
-      "description": "CRUD operations for Place records"
-    },
-    {
-      "name": "Entities - FeedbackResponse",
-      "description": "CRUD operations for FeedbackResponse records"
-    },
-    {
-      "name": "Entities - User",
-      "description": "CRUD operations for User records"
-    }
-  ]
+  }
 }
